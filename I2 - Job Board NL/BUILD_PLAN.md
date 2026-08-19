@@ -1,5 +1,6 @@
 # I2 — Job Board NL — Build Plan (Amsterdam)
 
+> **Product name: WerkNL**
 > **Goal:** A Telegram channel + bot where employers pay to post jobs; workers join free and get instant alerts. Launch in Amsterdam across 3 high-turnover sectors.
 
 **One-liner:** We own the channel, the worker list, and the employer relationships — the marketplace is ours.
@@ -12,29 +13,30 @@ A job board is only sticky if **both sides keep coming back on their own**: work
 
 | # | Sector | Why it's sticky |
 |---|--------|-----------------|
-| 1 | **Moving / verhuizing** | Amsterdam is a moving-heavy city (expats, students, small flats). Man-with-a-van + moving companies always need day-laborers. Gig-heavy, high churn, international workforce. *(Your pick.)* |
+| 1 | **Moving / verhuizing** | Amsterdam is a moving-heavy city (expats, students, small flats). Man-with-a-van + moving companies always need day-laborers. Gig-heavy, high churn, international workforce. |
 | 2 | **Horeca (hospitality)** | Amsterdam's most saturated labor market. Bars, restaurants, hotels always hiring — kitchen, dishwash, waiters. Highest turnover of any sector = employers repost every week = recurring revenue without re-selling. |
 | 3 | **Cleaning (schoonmaak)** | Everyone hires cleaners (offices, hotels, private homes). High churn, huge international + solo supply. Directly adjacent to the workforce you already know. |
 
-**Why these 3 together:** they're all (a) high-volume daily jobs, (b) dominated by international workers who *don't* use Indeed and live in WhatsApp/Telegram groups, and (c) high-turnover so the same employers repost constantly. That's the definition of sticky. Construction was considered but skipped — more regulated, slower, harder for international workers to access.
+**Why these 3 together:** all (a) high-volume daily jobs, (b) dominated by international workers who *don't* use Indeed and live in WhatsApp/Telegram groups, and (c) high-turnover so the same employers repost constantly. Construction skipped — more regulated, slower, harder for international workers.
 
 ---
 
 ## 2. Product overview (plain language)
 
-- **Channel:** a daily job digest — "Amsterdam jobs today: moving, horeca, cleaning."
+- **Channel:** a daily job digest — "WerkNL — Amsterdam jobs today: moving, horeca, cleaning."
 - **Bot:** workers pick their sector(s) → get job alerts the moment a matching job goes up.
 - **Each post:** job title, employer, area, pay (if public), shift/hours, a "respond" button.
-- **Employers:** submit a vacancy → free (goes into the next digest) or **paid** (posted immediately + pinned/featured + shown first).
-- **Premium worker tier:** €2–5/month for *instant* alerts before the daily digest.
+- **Employers:** submit a vacancy → free (next digest) or **paid** (immediate + pinned/featured).
+- **Premium worker tier:** instant alerts before the daily digest.
 
 ---
 
 ## 3. The two engines
 
 **Money engine** (who pays):
-- Employers / uitzendbureaus: **€15–25 per post**, **€100 for a 10-post pack**, featured/pinned = extra.
-- Premium worker tier: **€2–5/month**.
+- Employers / uitzendbureaus: **€7 per post**, **€49 for a 10-post pack**, **€79/month unlimited** (best value).
+- Featured/pinned boost: **+€5**.
+- Premium worker tier: **€1.99/month**.
 - Recurring comes from agencies on monthly packs + featured renewals.
 
 **Traffic engine** (why people return):
@@ -46,10 +48,10 @@ A job board is only sticky if **both sides keep coming back on their own**: work
 ## 4. Build plan (checkboxes)
 
 ### Phase 0 — Setup (Week 0)
-- [ ] Lock the 3 sectors: Moving, Horeca, Cleaning (Amsterdam area)
-- [ ] Pick the channel/bot name (options: *Jobs Amsterdam*, *WerkNL*, *AM Jobs* — decide in chat)
+- [x] Lock the 3 sectors: Moving, Horeca, Cleaning (Amsterdam area)
+- [x] Name decided: **WerkNL**
 - [ ] Create Telegram channel + bot via @BotFather
-- [ ] Stand up the repo structure for the bot code
+- [ ] Stand up the bot code in the repo
 
 ### Phase 1 — Build the bot (Weeks 1–2, Hermes)
 - [ ] Posting flow: admin/employer submits a vacancy → auto-formatted post
@@ -61,7 +63,7 @@ A job board is only sticky if **both sides keep coming back on their own**: work
 - [ ] Basic admin panel: approve/edit/remove jobs
 
 ### Phase 2 — Seed jobs (Weeks 1–2, in parallel)
-- [ ] Scraper: pull public vacancies for the 3 sectors (Indeed + public boards)
+- [ ] Scraper: pull public vacancies for the 3 sectors (RSS feeds + public boards)
 - [ ] Auto-draft daily posts so the channel has real jobs from day 1
 - [ ] Label seeded posts clearly (builds trust; no fake jobs)
 
@@ -106,15 +108,16 @@ A job board is only sticky if **both sides keep coming back on their own**: work
 
 ---
 
-## 8. Open decisions (decide before building)
-- [ ] Channel/bot name
-- [ ] Final pricing (default: €15–25/post, €100/10-pack, premium tier €2–5/mo)
-- [ ] Do we start Moving-only for week 1, or all 3 from day 1? (recommend: all 3, seed scraper covers each)
+## 8. Decisions (locked)
+- [x] Channel/bot name: **WerkNL**
+- [x] Pricing: €7/post, €49/10-pack, €79/mo unlimited, +€5 featured, €1.99/mo premium worker
+- [x] Roll out all 3 sectors from day 1 (moving, horeca, cleaning)
 
 ---
 
-## 9. Approve to start
-- [ ] Sectors: Moving, Horeca, Cleaning
-- [ ] Amsterdam area
-- [ ] Pricing as above
-- [ ] Name: ______ (fill in)
+## 9. Approved ✅ (build started)
+- [x] Sectors: Moving, Horeca, Cleaning
+- [x] Amsterdam area
+- [x] Cheaper packages
+- [x] Name: **WerkNL**
+- [x] Build the full thing
