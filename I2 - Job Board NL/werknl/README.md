@@ -55,8 +55,12 @@ so nothing fake ever reaches the channel.
 ## Tests
 
 ```bash
-python -m pytest tests/
+python -m pytest tests/                # if pytest is installed
+python3 tests/verify_changes.py        # canonical: plain python, no deps — 18 checks
 ```
+
+`verify_changes.py` covers contact/button formatting, cmd_jobs buttons, /post
+contact validation, seed dedupe, seed_jobs.json, and the db job lifecycle.
 
 ## Running 24/7
 
