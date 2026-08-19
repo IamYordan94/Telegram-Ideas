@@ -462,7 +462,12 @@ async def on_sector_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "done":
         if selected:
             labels = ", ".join(SECTORS[s]["label"] for s in selected)
-            summary = f"✅ Sectors saved: {labels}\n\nYou'll get alerts for new jobs in these sectors."
+            summary = (
+                f"✅ Sectors saved: {labels}\n\n"
+                "You'll get new jobs here — daily digest at 8:00, and every post has "
+                "a button to respond (💬 Chat / 🔗 Open ad).\n\n"
+                "📣 Also follow the job channel for everything: @werknl_ams"
+            )
         else:
             summary = "No sectors selected — you won't get alerts until you pick some. Use /sectors anytime."
         await q.edit_message_text(summary, parse_mode=ParseMode.HTML)
