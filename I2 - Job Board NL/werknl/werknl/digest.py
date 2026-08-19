@@ -3,19 +3,14 @@ from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ParseMode
 
 from werknl import config, db
-from werknl.formatting import job_post_text, job_dm_text
+from werknl.formatting import job_post_text, job_dm_text, contact_url, respond_label
 
 
 def _respond_button(job):
-    contact = job.get("contact") or ""
-    url = None
-    if contact.startswith("@"):
-        url = f"https://t.me/{contact[1:]}"
-    elif contact.startswith("http"):
-        url = contact
+    url = contact_url(job.get("contact"))
     if not url:
         return None
-    return InlineKeyboardMarkup([[InlineKeyboardButton("📩 Respond", url=url)]])
+    return InlineKeyboardMarkup([[InlineKeyboardButton(respond_label(url), url=url)]])
 
 
 async def post_job_to_channel(context, job):

@@ -16,7 +16,7 @@ from telegram.ext import (
 
 from werknl import config, db
 from werknl.constants import SECTORS, PRICING
-from werknl.formatting import job_post_text, pricing_text, job_dm_text
+from werknl.formatting import job_post_text, pricing_text, job_dm_text, contact_url, respond_label
 from werknl.digest import post_job_to_channel, notify_premium_workers, daily_digest
 
 logging.basicConfig(level=logging.INFO)
@@ -103,10 +103,20 @@ async def cmd_jobs(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(
             "No active jobs in your sectors right now — check the channel, more go up all day.")
         return
+    jobs = jobs[:20]
     parts = ["🗞️ <b>Jobs for you</b>\n"]
-    for j in jobs[:20]:
+    for j in jobs:
         parts.append("• " + job_dm_text(j))
-    await update.message.reply_text("\n".join(parts), parse_mode=ParseMode.HTML)
+    keyboard = []
+    for j in jobs:
+        url = contact_url(j.get("contact"))
+        if url:
+            keyboard.append([InlineKeyboardButton(
+                respond_label(url) + " — " + (j.get("title") or "")[:20], url=url)])
+    await update.message.reply_text(
+        "\n".join(parts), parse_mode=ParseMode.HTML,
+        reply_markup=InlineKeyboardMarkup(keyboard) if keyboard else None,
+    )
 
 
 async def cmd_sectors(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -205,7 +215,14 @@ async def post_description(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def post_contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    context.user_data["job"]["contact"] = update.message.text.strip()
+    contact = update.message.text.strip()
+    if not contact_url(contact):
+        await update.message.reply_text(
+            "⚠️ That doesn't look like a @username, phone number, or link — "
+            "workers won't be able to tap it. Type a real contact "
+            "(e.g. @employer_name or +31612345678):")
+        return CONTACT
+    context.user_data["job"]["contact"] = contact
     job = context.user_data["job"]
     u = update.effective_user
     job["employer"] = u.first_name or u.username or "Employer"
