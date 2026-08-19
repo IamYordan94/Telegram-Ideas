@@ -246,6 +246,15 @@ def jobs_active_by_sectors(db_path, sectors):
     return [dict(r) for r in rows]
 
 
+def pending_seed_jobs(db_path):
+    """Pending jobs that came from the seeder (not from employers)."""
+    conn = get_conn(db_path)
+    rows = conn.execute(
+        "SELECT * FROM jobs WHERE status='pending' AND source='seed' ORDER BY id").fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
 def stats(db_path):
     conn = get_conn(db_path)
     workers = conn.execute("SELECT COUNT(*) c FROM workers").fetchone()["c"]

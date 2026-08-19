@@ -120,6 +120,25 @@ def test_db_module():
     m.test_job_lifecycle()
 check('tests/test_db.py: job lifecycle passes', test_db_module)
 
+# ── 6. seed auto-approve (7:45) ──
+from werknl import db as dbmod
+
+def test_pending_seed_filter():
+    import tempfile
+    d = os.path.join(tempfile.mkdtemp(), 't.db')
+    dbmod.init_db(d)
+    dbmod.add_job(d, title='SeedJob', sector='horeca', source='seed')
+    dbmod.add_job(d, title='EmployerJob', sector='horeca', source='employer')
+    jobs = dbmod.pending_seed_jobs(d)
+    assert [j['title'] for j in jobs] == ['SeedJob']
+check('db.pending_seed_jobs: only source=seed pending jobs', test_pending_seed_filter)
+
+def test_autoapprove_scheduled():
+    src = inspect.getsource(botmod)
+    assert 'daily_seed_autoapprove' in src
+    assert 'run_daily(daily_seed_autoapprove' in src
+check('bot: daily_seed_autoapprove defined + scheduled', test_autoapprove_scheduled)
+
 print()
 if FAILED:
     print('FAILED: ' + ', '.join(FAILED))

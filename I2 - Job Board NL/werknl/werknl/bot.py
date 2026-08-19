@@ -19,6 +19,17 @@ from werknl.constants import SECTORS, PRICING
 from werknl.formatting import job_post_text, pricing_text, job_dm_text, contact_url, respond_label
 from werknl.digest import post_job_to_channel, notify_premium_workers, daily_digest
 
+
+async def daily_seed_autoapprove(context):
+    """7:45 — auto-approve seeded jobs (public job-board listings) so the board
+    stays alive daily. Employer-submitted jobs still require manual /approve."""
+    for job in db.pending_seed_jobs(config.DB_PATH):
+        try:
+            mid = await post_job_to_channel(context, job)
+            db.set_job_status(config.DB_PATH, job["id"], "active", channel_message_id=mid)
+        except Exception:
+            continue
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("werknl")
 
@@ -521,6 +532,7 @@ def build_application() -> Application:
     app.add_handler(CallbackQueryHandler(on_menu_cb, pattern="^menu:"))
 
     app.job_queue.run_daily(daily_digest, time=time(hour=config.DIGEST_HOUR, minute=0))
+    app.job_queue.run_daily(daily_seed_autoapprove, time=time(hour=7, minute=45))
 
     return app
 
