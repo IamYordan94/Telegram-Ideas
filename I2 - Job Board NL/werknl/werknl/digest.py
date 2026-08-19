@@ -42,7 +42,7 @@ async def daily_digest(context):
         jobs = db.jobs_active_by_sectors(config.DB_PATH, sectors)
         if not jobs:
             continue
-        parts = ["🗞️ <b>WerkNL — jobs for you today</b>\n"]
+        parts = [f"🗞️ <b>{config.BRAND_NAME} — jobs for you today</b>\n"]
         for j in jobs:
             parts.append("• " + job_dm_text(j))
         parts.append("\nMore jobs on the channel — every approved job is posted there first.")

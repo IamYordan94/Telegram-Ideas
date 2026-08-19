@@ -1,0 +1,6 @@
+.env
+*.db
+*.pid
+boot.log
+__pycache__/
+saas-kit/boards/

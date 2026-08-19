@@ -2,6 +2,7 @@
 import html
 import re
 
+from werknl import config
 from werknl.constants import SECTORS, PRICING
 
 
@@ -80,7 +81,7 @@ def job_dm_text(job) -> str:
 def pricing_text() -> str:
     p = PRICING
     return (
-        "💶 <b>WerkNL — Employer pricing</b>\n\n"
+        f"💶 <b>{config.BRAND_NAME} — Employer pricing</b>\n\n"
         f"• Single job post — <b>€{p['per_post']}</b>\n"
         f"• 10-post pack — <b>€{p['pack_10']}</b> (≈€{p['pack_10'] / 10:.2f}/post)\n"
         f"• Monthly unlimited — <b>€{p['monthly']}</b> (best value)\n"

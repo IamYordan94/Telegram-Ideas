@@ -1,0 +1,1652 @@
+[
+ {
+  "q": "The 'Congratulations' scene in Evangelion happens…",
+  "options": [
+   "Inside Instrumentality",
+   "At a wedding",
+   "After the final Angel battle",
+   "In a dream"
+  ],
+  "answer": 0,
+  "explain": "A sea of LCL."
+ },
+ {
+  "q": "In Devilman Crybaby, Akira becomes…",
+  "options": [
+   "Devilman",
+   "An angel",
+   "A zombie",
+   "A cyborg"
+  ],
+  "answer": 0,
+  "explain": "Half human, half demon."
+ },
+ {
+  "q": "The Promised Neverland's orphanage turns out to be…",
+  "options": [
+   "A farm",
+   "A school",
+   "A laboratory",
+   "A prison"
+  ],
+  "answer": 0,
+  "explain": "The children are the crop."
+ },
+ {
+  "q": "In Your Lie in April, Kaori plays the…",
+  "options": [
+   "Violin",
+   "Piano",
+   "Cello",
+   "Flute"
+  ],
+  "answer": 0,
+  "explain": "Kousei plays the piano."
+ },
+ {
+  "q": "Which Pokémon evolves into Charizard?",
+  "options": [
+   "Charmeleon",
+   "Squirtle",
+   "Bulbasaur",
+   "Magikarp"
+  ],
+  "answer": 0,
+  "explain": "The fire lizard line."
+ },
+ {
+  "q": "The mangaka of Vagabond is…",
+  "options": [
+   "Takehiko Inoue",
+   "Takehiko Ito",
+   "Naoki Urasawa",
+   "Makoto Yukimura"
+  ],
+  "answer": 0,
+  "explain": "He also made Slam Dunk."
+ },
+ {
+  "q": "Chihayafuru is about…",
+  "options": [
+   "Karuta",
+   "Go",
+   "Shogi",
+   "Hanafuda"
+  ],
+  "answer": 0,
+  "explain": "A Japanese card game about poems."
+ },
+ {
+  "q": "The cursed fingers in Jujutsu Kaisen belong to…",
+  "options": [
+   "Sukuna",
+   "Gojo",
+   "Geto",
+   "Yuta"
+  ],
+  "answer": 0,
+  "explain": "There are twenty of them."
+ },
+ {
+  "q": "'Omae wa mou shindeiru' is associated with…",
+  "options": [
+   "Fist of the North Star",
+   "JoJo's Bizarre Adventure",
+   "Baki the Grappler",
+   "Rurouni Kenshin"
+  ],
+  "answer": 0,
+  "explain": "You are already dead."
+ },
+ {
+  "q": "Ichigo's first Zanpakuto in Bleach is named…",
+  "options": [
+   "Zangetsu",
+   "Senbonzakura",
+   "Hyorinmaru",
+   "Tensa Zangetsu"
+  ],
+  "answer": 0,
+  "explain": "Moon-related name."
+ },
+ {
+  "q": "The Redline race takes place on…",
+  "options": [
+   "Roboworld",
+   "Earth",
+   "Mars",
+   "The Moon"
+  ],
+  "answer": 0,
+  "explain": "The planet of robots."
+ },
+ {
+  "q": "Who is the first crewmate Luffy recruits?",
+  "options": [
+   "Zoro",
+   "Nami",
+   "Sanji",
+   "Usopp"
+  ],
+  "answer": 0,
+  "explain": "The swordsman."
+ },
+ {
+  "q": "Monkey D. Luffy wants to become king of the…",
+  "options": [
+   "Pirates",
+   "Wizards",
+   "Ninjas",
+   "Samurai"
+  ],
+  "answer": 0,
+  "explain": "The show is literally called One ___."
+ },
+ {
+  "q": "Mind Game was directed by…",
+  "options": [
+   "Masaaki Yuasa",
+   "Satoshi Kon",
+   "Shinichiro Watanabe",
+   "Mamoru Hosoda"
+  ],
+  "answer": 0,
+  "explain": "The Devilman Crybaby director."
+ },
+ {
+  "q": "In Tokyo Revengers, the protagonist travels…",
+  "options": [
+   "Back in time",
+   "To another country",
+   "Into the future",
+   "Between dreams"
+  ],
+  "answer": 0,
+  "explain": "To save someone by changing the past."
+ },
+ {
+  "q": "In Evangelion, pilots control…",
+  "options": [
+   "Evangelion units",
+   "Gundams",
+   "Jaegers",
+   "Knightmare Frames"
+  ],
+  "answer": 0,
+  "explain": "Giant biomechanical things."
+ },
+ {
+  "q": "Gankutsuou is based on…",
+  "options": [
+   "The Count of Monte Cristo",
+   "Dracula",
+   "Les Misérables",
+   "Phantom of the Opera"
+  ],
+  "answer": 0,
+  "explain": "A revenge classic, in space."
+ },
+ {
+  "q": "In Hunter x Hunter, Gon's best friend comes from a family of…",
+  "options": [
+   "Assassins",
+   "Hunters",
+   "Merchants",
+   "Doctors"
+  ],
+  "answer": 0,
+  "explain": "Killua's family business."
+ },
+ {
+  "q": "Inuyasha is half…",
+  "options": [
+   "Demon",
+   "Wolf",
+   "Angel",
+   "Dragon"
+  ],
+  "answer": 0,
+  "explain": "The other half is human."
+ },
+ {
+  "q": "Makoto Shinkai directed which body-swap film?",
+  "options": [
+   "Your Name",
+   "A Silent Voice",
+   "5 Centimeters per Second",
+   "Weathering with You"
+  ],
+  "answer": 0,
+  "explain": "Kimi no Na wa."
+ },
+ {
+  "q": "Ryuko's weapon in Kill la Kill is…",
+  "options": [
+   "Half a scissor",
+   "A katana",
+   "A gun",
+   "A whip"
+  ],
+  "answer": 0,
+  "explain": "The other half killed her father."
+ },
+ {
+  "q": "Guts' sword in Berserk is called…",
+  "options": [
+   "Dragonslayer",
+   "Excalibur",
+   "Masamune",
+   "Zangetsu"
+  ],
+  "answer": 0,
+  "explain": "A huge slab of iron."
+ },
+ {
+  "q": "In Odd Taxi, the walrus taxi driver gets tangled in…",
+  "options": [
+   "A missing girl case",
+   "A bank heist",
+   "A gang war",
+   "An alien invasion"
+  ],
+  "answer": 0,
+  "explain": "An idol disappears."
+ },
+ {
+  "q": "In Nana, the two Nanas…",
+  "options": [
+   "Share a name but opposite lives",
+   "Are sisters",
+   "Are rivals",
+   "Are bandmates"
+  ],
+  "answer": 0,
+  "explain": "One's a punk, one's sweet."
+ },
+ {
+  "q": "In FLCL, Naota gets hit by…",
+  "options": [
+   "A guitar",
+   "A car",
+   "Lightning",
+   "A bullet"
+  ],
+  "answer": 0,
+  "explain": "Ride on shooting star."
+ },
+ {
+  "q": "In Kaiba, memories can be…",
+  "options": [
+   "Transferred between bodies",
+   "Erased at birth",
+   "Only stored in banks",
+   "Never recovered"
+  ],
+  "answer": 0,
+  "explain": "Bodies are just shells."
+ },
+ {
+  "q": "Eren Yeager fights giant humanoids called Titans in…",
+  "options": [
+   "Attack on Titan",
+   "Tokyo Ghoul",
+   "Parasyte",
+   "Deadman Wonderland"
+  ],
+  "answer": 0,
+  "explain": "The title names the monsters."
+ },
+ {
+  "q": "In Parasyte, Shinichi's right hand is replaced by…",
+  "options": [
+   "Migi",
+   "Migi's brother",
+   "A robot arm",
+   "Kana"
+  ],
+  "answer": 0,
+  "explain": "The name means 'right'."
+ },
+ {
+  "q": "Kaiji gambles to…",
+  "options": [
+   "Pay off debt",
+   "Save his brother",
+   "Win a tournament",
+   "Escape prison"
+  ],
+  "answer": 0,
+  "explain": "The loan sharks made him."
+ },
+ {
+  "q": "Junji Ito's 'Uzumaki' is a horror story about…",
+  "options": [
+   "Spirals",
+   "Ghosts",
+   "Vampires",
+   "Robots"
+  ],
+  "answer": 0,
+  "explain": "The title means 'spiral'."
+ },
+ {
+  "q": "In Serial Experiments Lain, the network is called…",
+  "options": [
+   "The Wired",
+   "The Grid",
+   "The Net",
+   "The System"
+  ],
+  "answer": 0,
+  "explain": "Not the internet."
+ },
+ {
+  "q": "Mushishi's Ginko…",
+  "options": [
+   "Travels solving mushi mysteries",
+   "Hunts demons for pay",
+   "Runs a medicine shop",
+   "Is a shrine priest"
+  ],
+  "answer": 0,
+  "explain": "Not a doctor exactly."
+ },
+ {
+  "q": "The Survey Corps' symbol in AoT is…",
+  "options": [
+   "The Wings of Freedom",
+   "A rose",
+   "A falcon",
+   "Two crossed swords"
+  ],
+  "answer": 0,
+  "explain": "Two wings."
+ },
+ {
+  "q": "Mawaru Penguindrum was directed by…",
+  "options": [
+   "Kunihiko Ikuhara",
+   "Hideaki Anno",
+   "Masaaki Yuasa",
+   "Satoshi Kon"
+  ],
+  "answer": 0,
+  "explain": "The Utena director."
+ },
+ {
+  "q": "Angel's Egg was directed by…",
+  "options": [
+   "Mamoru Oshii",
+   "Satoshi Kon",
+   "Hideaki Anno",
+   "Katsuhiro Otomo"
+  ],
+  "answer": 0,
+  "explain": "The Ghost in the Shell director."
+ },
+ {
+  "q": "Chainsaw Man's Devil Hunters work for…",
+  "options": [
+   "Public Safety",
+   "The military",
+   "The church",
+   "A guild"
+  ],
+  "answer": 0,
+  "explain": "A government bureau."
+ },
+ {
+  "q": "Shinji Ikari's father in Evangelion is…",
+  "options": [
+   "Gendo",
+   "Fuyutsuki",
+   "Kaji",
+   "Ritsuko"
+  ],
+  "answer": 0,
+  "explain": "The commander of NERV."
+ },
+ {
+  "q": "Goku's flying cloud is called…",
+  "options": [
+   "Nimbus",
+   "Kame",
+   "Senzu",
+   "Kaioken"
+  ],
+  "answer": 0,
+  "explain": "Kinto'un in Japanese."
+ },
+ {
+  "q": "The time machine in Steins;Gate is built from a…",
+  "options": [
+   "Microwave",
+   "Refrigerator",
+   "Computer",
+   "Phone booth"
+  ],
+  "answer": 0,
+  "explain": "It sends D-mails."
+ },
+ {
+  "q": "In Legend of the Galactic Heroes, Yang Wen-li is…",
+  "options": [
+   "An admiral of the Free Planets Alliance",
+   "An imperial emperor",
+   "A pirate captain",
+   "A mercenary"
+  ],
+  "answer": 0,
+  "explain": "The 'magician' tactician."
+ },
+ {
+  "q": "Jigglypuff is known for making people…",
+  "options": [
+   "Fall asleep",
+   "Dance",
+   "Cry",
+   "Fly"
+  ],
+  "answer": 0,
+  "explain": "Its song is a lullaby."
+ },
+ {
+  "q": "Akira is set in…",
+  "options": [
+   "Neo-Tokyo",
+   "Osaka",
+   "Kyoto",
+   "Tokyo-3"
+  ],
+  "answer": 0,
+  "explain": "A rebuilt metropolis."
+ },
+ {
+  "q": "The walls in Attack on Titan are named…",
+  "options": [
+   "Maria, Rose and Sina",
+   "Mikasa, Eren and Levi",
+   "Annie, Reiner and Pieck",
+   "Sina, Hina and Rina"
+  ],
+  "answer": 0,
+  "explain": "Three female names."
+ },
+ {
+  "q": "'Kamehameha' in Dragon Ball is…",
+  "options": [
+   "Goku's energy beam",
+   "A planet",
+   "A dragon",
+   "A fusion dance"
+  ],
+  "answer": 0,
+  "explain": "He cups his hands."
+ },
+ {
+  "q": "Senku from Dr. Stone rebuilds civilization with…",
+  "options": [
+   "Science",
+   "Magic",
+   "Robots",
+   "Alchemy"
+  ],
+  "answer": 0,
+  "explain": "Ten billion percent."
+ },
+ {
+  "q": "Haikyuu!! is about…",
+  "options": [
+   "Volleyball",
+   "Basketball",
+   "Tennis",
+   "Soccer"
+  ],
+  "answer": 0,
+  "explain": "Hinata's sport."
+ },
+ {
+  "q": "In Made in Abyss, the Curse of the Abyss…",
+  "options": [
+   "Gets worse when climbing up",
+   "Only affects children",
+   "Makes you stronger",
+   "Turns you into a robot"
+  ],
+  "answer": 0,
+  "explain": "Ascending is the problem."
+ },
+ {
+  "q": "In Boogiepop Phantom, Boogiepop is…",
+  "options": [
+   "A mysterious entity",
+   "A ghost hunter",
+   "A robot",
+   "A computer virus"
+  ],
+  "answer": 0,
+  "explain": "More legend than person."
+ },
+ {
+  "q": "Gojo Satoru is…",
+  "options": [
+   "The strongest sorcerer",
+   "A cursed spirit",
+   "A healer",
+   "A student"
+  ],
+  "answer": 0,
+  "explain": "Blindfold and infinity."
+ },
+ {
+  "q": "In March Comes in Like a Lion, the protagonist plays…",
+  "options": [
+   "Shogi",
+   "Go",
+   "Mahjong",
+   "Chess"
+  ],
+  "answer": 0,
+  "explain": "Japanese chess."
+ },
+ {
+  "q": "Samurai Champloo was directed by…",
+  "options": [
+   "Shinichiro Watanabe",
+   "Satoshi Kon",
+   "Hayao Miyazaki",
+   "Hideaki Anno"
+  ],
+  "answer": 0,
+  "explain": "The Cowboy Bebop guy."
+ },
+ {
+  "q": "The 'Generation of Miracles' in Kuroko's Basketball are…",
+  "options": [
+   "Elite players",
+   "A rock band",
+   "A school club",
+   "A robot team"
+  ],
+  "answer": 0,
+  "explain": "Five prodigies plus a phantom."
+ },
+ {
+  "q": "The fox spirit sealed inside Naruto is called…",
+  "options": [
+   "The Nine-Tailed Fox",
+   "A giant toad",
+   "A demon sword",
+   "A hawk"
+  ],
+  "answer": 0,
+  "explain": "Kurama."
+ },
+ {
+  "q": "Mikasa and Levi share which bloodline?",
+  "options": [
+   "Ackerman",
+   "Uchiha",
+   "Zoldyck",
+   "Joestar"
+  ],
+  "answer": 0,
+  "explain": "Two of the strongest soldiers."
+ },
+ {
+  "q": "Kyubey grants girls wishes in exchange for…",
+  "options": [
+   "Becoming magical girls",
+   "Money",
+   "Immortality",
+   "Super strength"
+  ],
+  "answer": 0,
+  "explain": "Madoka's contract."
+ },
+ {
+  "q": "Tanjiro Kamado hunts demons in…",
+  "options": [
+   "Demon Slayer",
+   "Jujutsu Kaisen",
+   "Blue Exorcist",
+   "Noragami"
+  ],
+  "answer": 0,
+  "explain": "Also known as Kimetsu no Yaiba."
+ },
+ {
+  "q": "The titular slime in 'That Time I Got Reincarnated as a Slime' is named…",
+  "options": [
+   "Rimuru",
+   "Ranga",
+   "Rimme",
+   "Rem"
+  ],
+  "answer": 0,
+  "explain": "R— something Tempest."
+ },
+ {
+  "q": "Okabe's catchphrase in Steins;Gate is…",
+  "options": [
+   "El Psy Kongroo",
+   "Believe it!",
+   "Dattebayo",
+   "Yare yare daze"
+  ],
+  "answer": 0,
+  "explain": "El Psy ____."
+ },
+ {
+  "q": "The composer for Made in Abyss is…",
+  "options": [
+   "Kevin Penkin",
+   "Hiroyuki Sawano",
+   "Evan Call",
+   "Yuki Hayashi"
+  ],
+  "answer": 0,
+  "explain": "Australian composer."
+ },
+ {
+  "q": "Saber's true identity in Fate/stay night is…",
+  "options": [
+   "King Arthur",
+   "Joan of Arc",
+   "Gilgamesh",
+   "Alexander the Great"
+  ],
+  "answer": 0,
+  "explain": "Excalibur."
+ },
+ {
+  "q": "Ash Ketchum wants to catch them all — he's from…",
+  "options": [
+   "Pokémon",
+   "Digimon",
+   "Yu-Gi-Oh!",
+   "Beyblade"
+  ],
+  "answer": 0,
+  "explain": "Pikachu says hi."
+ },
+ {
+  "q": "The Gomu Gomu no Mi devil fruit gives Luffy…",
+  "options": [
+   "A rubber body",
+   "Fire powers",
+   "Invisibility",
+   "Flight"
+  ],
+  "answer": 0,
+  "explain": "He stretches."
+ },
+ {
+  "q": "Anya Forger is the child star of…",
+  "options": [
+   "Spy x Family",
+   "Buddy Daddies",
+   "Hinamatsuri",
+   "Barakamon"
+  ],
+  "answer": 0,
+  "explain": "'Waku waku!'"
+ },
+ {
+  "q": "Re-l Mayer from Ergo Proxy is…",
+  "options": [
+   "An inspector",
+   "A proxy",
+   "An android",
+   "A god"
+  ],
+  "answer": 0,
+  "explain": "She investigates the domed city."
+ },
+ {
+  "q": "All Might's real name in My Hero Academia is…",
+  "options": [
+   "Toshinori Yagi",
+   "Enji Todoroki",
+   "Shota Aizawa",
+   "Hizashi Yamada"
+  ],
+  "answer": 0,
+  "explain": "T. Y."
+ },
+ {
+  "q": "Keep Your Hands Off Eizouken! is about girls who…",
+  "options": [
+   "Make anime",
+   "Play in a band",
+   "Run a café",
+   "Race cars"
+  ],
+  "answer": 0,
+  "explain": "The 'greatest world' club."
+ },
+ {
+  "q": "Shirobako is about…",
+  "options": [
+   "Making anime at a production studio",
+   "Saving a failing school",
+   "Rebuilding a town",
+   "Baking bread"
+  ],
+  "answer": 0,
+  "explain": "Meta: it's about the industry."
+ },
+ {
+  "q": "A Poké Ball is used to…",
+  "options": [
+   "Catch Pokémon",
+   "Heal Pokémon",
+   "Evolve Pokémon",
+   "Teleport"
+  ],
+  "answer": 0,
+  "explain": "Throw it at a wild one."
+ },
+ {
+  "q": "Texhnolyze is set in the underground city of…",
+  "options": [
+   "Lux",
+   "Neo-Tokyo",
+   "Midgar",
+   "Rapture"
+  ],
+  "answer": 0,
+  "explain": "A dying artificial city."
+ },
+ {
+  "q": "Tai's partner Digimon is…",
+  "options": [
+   "Agumon",
+   "Gabumon",
+   "Patamon",
+   "Gomamon"
+  ],
+  "answer": 0,
+  "explain": "He digivolves into Greymon."
+ },
+ {
+  "q": "The animation studio behind Demon Slayer is…",
+  "options": [
+   "Ufotable",
+   "Kyoto Animation",
+   "Wit Studio",
+   "A-1 Pictures"
+  ],
+  "answer": 0,
+  "explain": "Starts with U."
+ },
+ {
+  "q": "San from Princess Mononoke was raised by…",
+  "options": [
+   "Wolves",
+   "Monks",
+   "Samurai",
+   "Spirits"
+  ],
+  "answer": 0,
+  "explain": "She's the wolf girl."
+ },
+ {
+  "q": "'Plus Ultra' is the motto of…",
+  "options": [
+   "U.A. High School",
+   "Konoha Academy",
+   "The Hunter Association",
+   "The Soul Society"
+  ],
+  "answer": 0,
+  "explain": "Go beyond!"
+ },
+ {
+  "q": "Sailor Moon's civilian name is…",
+  "options": [
+   "Usagi Tsukino",
+   "Sakura Kinomoto",
+   "Rei Ayanami",
+   "Lucy Heartfilia"
+  ],
+  "answer": 0,
+  "explain": "'Usagi' means rabbit."
+ },
+ {
+  "q": "In Fullmetal Alchemist: Brotherhood, the final antagonist is…",
+  "options": [
+   "Father",
+   "Scar",
+   "Envy",
+   "Wrath"
+  ],
+  "answer": 0,
+  "explain": "The homunculus who made them."
+ },
+ {
+  "q": "A Place Further Than the Universe follows girls heading to…",
+  "options": [
+   "Antarctica",
+   "The Moon",
+   "Everest",
+   "The Amazon"
+  ],
+  "answer": 0,
+  "explain": "The coldest continent."
+ },
+ {
+  "q": "Rem from Re:Zero is…",
+  "options": [
+   "A maid",
+   "A knight",
+   "A witch",
+   "A merchant"
+  ],
+  "answer": 0,
+  "explain": "She has a twin sister, Ram."
+ },
+ {
+  "q": "Kyoto Animation's film about bullying is…",
+  "options": [
+   "A Silent Voice",
+   "Your Lie in April",
+   "Anohana",
+   "I Want to Eat Your Pancreas"
+  ],
+  "answer": 0,
+  "explain": "Koe no Katachi."
+ },
+ {
+  "q": "Planetes is about…",
+  "options": [
+   "Space debris collectors",
+   "Asteroid miners",
+   "Mars colonists",
+   "Starship pilots"
+  ],
+  "answer": 0,
+  "explain": "Garbage men in orbit."
+ },
+ {
+  "q": "Sword Art Online's death game takes place in…",
+  "options": [
+   "Virtual reality",
+   "A desert",
+   "Outer space",
+   "A boarding school"
+  ],
+  "answer": 0,
+  "explain": "Players can't log out."
+ },
+ {
+  "q": "Vicious is Spike's… in Cowboy Bebop",
+  "options": [
+   "Rival",
+   "Brother",
+   "Father",
+   "Boss"
+  ],
+  "answer": 0,
+  "explain": "The syndicate's bird."
+ },
+ {
+  "q": "Perfect Blue was directed by…",
+  "options": [
+   "Satoshi Kon",
+   "Mamoru Oshii",
+   "Hideaki Anno",
+   "Katsuhiro Otomo"
+  ],
+  "answer": 0,
+  "explain": "A master of psychological anime."
+ },
+ {
+  "q": "The card game in Yu-Gi-Oh! is called…",
+  "options": [
+   "Duel Monsters",
+   "Magic Cards",
+   "Go",
+   "Chess"
+  ],
+  "answer": 0,
+  "explain": "It's time to duel."
+ },
+ {
+  "q": "Dr. Tenma from Monster is a…",
+  "options": [
+   "Neurosurgeon",
+   "Detective",
+   "Priest",
+   "Journalist"
+  ],
+  "answer": 0,
+  "explain": "He saves a boy who becomes a killer."
+ },
+ {
+  "q": "Which shinigami drops the Death Note into the human world?",
+  "options": [
+   "Ryuk",
+   "Rem",
+   "Jealous",
+   "Sidoh"
+  ],
+  "answer": 0,
+  "explain": "He loves apples."
+ },
+ {
+  "q": "In Bleach, Soul Reapers guide souls to…",
+  "options": [
+   "Soul Society",
+   "Hueco Mundo",
+   "Valhalla",
+   "Elysium"
+  ],
+  "answer": 0,
+  "explain": "Where the Gotei 13 live."
+ },
+ {
+  "q": "Okabe nicknames Kurisu…",
+  "options": [
+   "Christina",
+   "Chris",
+   "Assistant",
+   "Kuri-chan"
+  ],
+  "answer": 0,
+  "explain": "It annoys her."
+ },
+ {
+  "q": "In One Punch Man, Genos is…",
+  "options": [
+   "A cyborg",
+   "An alien",
+   "A psychic",
+   "A ninja"
+  ],
+  "answer": 0,
+  "explain": "Machine parts everywhere."
+ },
+ {
+  "q": "Doraemon is a robotic…",
+  "options": [
+   "Cat",
+   "Dog",
+   "Rabbit",
+   "Bear"
+  ],
+  "answer": 0,
+  "explain": "Blue and earless."
+ },
+ {
+  "q": "Rei Ayanami from Evangelion is…",
+  "options": [
+   "A clone",
+   "A robot",
+   "An alien",
+   "A goddess"
+  ],
+  "answer": 0,
+  "explain": "There are several of her."
+ },
+ {
+  "q": "In The Girl Who Leapt Through Time, Makoto can…",
+  "options": [
+   "Leap through time",
+   "Teleport",
+   "Fly",
+   "Turn invisible"
+  ],
+  "answer": 0,
+  "explain": "She literally jumps."
+ },
+ {
+  "q": "'Howl's Moving Castle' is based on a book by…",
+  "options": [
+   "Diana Wynne Jones",
+   "J.K. Rowling",
+   "C.S. Lewis",
+   "Roald Dahl"
+  ],
+  "answer": 0,
+  "explain": "A British author."
+ },
+ {
+  "q": "Subaru Natsuki's ability in Re:Zero is…",
+  "options": [
+   "Return by Death",
+   "Time skip",
+   "Shadow clone",
+   "Precognition"
+  ],
+  "answer": 0,
+  "explain": "He dies. A lot."
+ },
+ {
+  "q": "Space Brothers follows two brothers who…",
+  "options": [
+   "Both try to become astronauts",
+   "Build rockets",
+   "Colonize Mars",
+   "Race solar sails"
+  ],
+  "answer": 0,
+  "explain": "Mutta and Hibito."
+ },
+ {
+  "q": "In Hunter x Hunter, the rarest Nen type is…",
+  "options": [
+   "Specialist",
+   "Enhancer",
+   "Emitter",
+   "Conjurer"
+  ],
+  "answer": 0,
+  "explain": "Kurapika and Chrollo have it."
+ },
+ {
+  "q": "Sakura Haruno is a character from…",
+  "options": [
+   "Naruto",
+   "One Piece",
+   "Bleach",
+   "Fairy Tail"
+  ],
+  "answer": 0,
+  "explain": "Team 7's pink-haired one."
+ },
+ {
+  "q": "What color is Goku's hair as a Super Saiyan?",
+  "options": [
+   "Blonde",
+   "Blue",
+   "Red",
+   "Green"
+  ],
+  "answer": 0,
+  "explain": "Golden."
+ },
+ {
+  "q": "The Grand Line is the sea route in…",
+  "options": [
+   "One Piece",
+   "Black Lagoon",
+   "Vinland Saga",
+   "Free!"
+  ],
+  "answer": 0,
+  "explain": "Where the One Piece is hidden."
+ },
+ {
+  "q": "In Eureka Seven, mechs ride…",
+  "options": [
+   "Trapar-wave boards",
+   "Horses",
+   "Wings",
+   "Jets"
+  ],
+  "answer": 0,
+  "explain": "They surf the sky."
+ },
+ {
+  "q": "Zoro fights with how many swords?",
+  "options": [
+   "Three",
+   "One",
+   "Two",
+   "Four"
+  ],
+  "answer": 0,
+  "explain": "One of them is in his mouth."
+ },
+ {
+  "q": "Psycho-Pass judges citizens by their…",
+  "options": [
+   "Criminal potential",
+   "IQ",
+   "Wealth",
+   "Loyalty"
+  ],
+  "answer": 0,
+  "explain": "The Sibyl System's score."
+ },
+ {
+  "q": "Light Yagami's rival detective in Death Note is known as…",
+  "options": [
+   "L",
+   "K",
+   "M",
+   "N"
+  ],
+  "answer": 0,
+  "explain": "A single letter."
+ },
+ {
+  "q": "In The Tatami Galaxy, the protagonist…",
+  "options": [
+   "Relives college through parallel timelines",
+   "Fights aliens",
+   "Solves murders",
+   "Builds a robot club"
+  ],
+  "answer": 0,
+  "explain": "4.5 tatami mats."
+ },
+ {
+  "q": "In JoJo's Bizarre Adventure Part 3, the group travels to…",
+  "options": [
+   "Egypt",
+   "Italy",
+   "Japan",
+   "America"
+  ],
+  "answer": 0,
+  "explain": "To fight DIO."
+ },
+ {
+  "q": "Natsu Dragneel from Fairy Tail is a…",
+  "options": [
+   "Dragon Slayer",
+   "Demon",
+   "Wizard King",
+   "Pirate"
+  ],
+  "answer": 0,
+  "explain": "Fire magic, raised by a dragon."
+ },
+ {
+  "q": "Pikachu is what type of Pokémon?",
+  "options": [
+   "Electric",
+   "Water",
+   "Fire",
+   "Grass"
+  ],
+  "answer": 0,
+  "explain": "He shocks."
+ },
+ {
+  "q": "Welcome to the NHK's protagonist is…",
+  "options": [
+   "A hikikomori",
+   "An idol",
+   "A salaryman",
+   "A teacher"
+  ],
+  "answer": 0,
+  "explain": "He never leaves his room."
+ },
+ {
+  "q": "The author of One Piece is…",
+  "options": [
+   "Eiichiro Oda",
+   "Akira Toriyama",
+   "Masashi Kishimoto",
+   "Tite Kubo"
+  ],
+  "answer": 0,
+  "explain": "O-D-A."
+ },
+ {
+  "q": "What does Deku inherit from All Might?",
+  "options": [
+   "One For All",
+   "All For One",
+   "Explosion",
+   "Zero Gravity"
+  ],
+  "answer": 0,
+  "explain": "The quirk of quirks."
+ },
+ {
+  "q": "In Vinland Saga, Thorfinn seeks revenge against…",
+  "options": [
+   "Askeladd",
+   "Thorkell",
+   "Canute",
+   "Floki"
+  ],
+  "answer": 0,
+  "explain": "The man who killed his father."
+ },
+ {
+  "q": "'Night Is Short, Walk On Girl' was written by…",
+  "options": [
+   "Tomihiko Morimi",
+   "Haruki Murakami",
+   "Kazuo Ishiguro",
+   "Yukio Mishima"
+  ],
+  "answer": 0,
+  "explain": "Same author as Tatami Galaxy."
+ },
+ {
+  "q": "The mangaka of Berserk was…",
+  "options": [
+   "Kentaro Miura",
+   "Yoshihiro Togashi",
+   "Takehiko Inoue",
+   "Naoki Urasawa"
+  ],
+  "answer": 0,
+  "explain": "A legend lost in 2021."
+ },
+ {
+  "q": "Naruto's dream is to become…",
+  "options": [
+   "Hokage",
+   "Pirate King",
+   "King of Games",
+   "Number One Hero"
+  ],
+  "answer": 0,
+  "explain": "Leader of the Hidden Leaf village."
+ },
+ {
+  "q": "What powers the 3D Maneuver Gear in AoT?",
+  "options": [
+   "Compressed gas",
+   "Electricity",
+   "Steam",
+   "Titan spinal fluid"
+  ],
+  "answer": 0,
+  "explain": "The canisters on their hips."
+ },
+ {
+  "q": "The main trio of Attack on Titan: Eren, Mikasa and…",
+  "options": [
+   "Armin",
+   "Levi",
+   "Jean",
+   "Connie"
+  ],
+  "answer": 0,
+  "explain": "He's the brains of the group."
+ },
+ {
+  "q": "Totoro is best described as a…",
+  "options": [
+   "Forest spirit",
+   "Robot",
+   "Dragon",
+   "Wizard"
+  ],
+  "answer": 0,
+  "explain": "He sleeps in a tree."
+ },
+ {
+  "q": "In Baccano!, immortality comes from…",
+  "options": [
+   "An alchemist's elixir",
+   "A curse",
+   "Vampire blood",
+   "A time machine"
+  ],
+  "answer": 0,
+  "explain": "1930s gangsters, eternal life."
+ },
+ {
+  "q": "Paranoia Agent was created by…",
+  "options": [
+   "Satoshi Kon",
+   "Mamoru Oshii",
+   "Masaaki Yuasa",
+   "Shinichiro Watanabe"
+  ],
+  "answer": 0,
+  "explain": "Shonen Bat's creator."
+ },
+ {
+  "q": "The one-eyed ghoul in Tokyo Ghoul is…",
+  "options": [
+   "Ken Kaneki",
+   "Touka Kirishima",
+   "Rize Kamishiro",
+   "Uta"
+  ],
+  "answer": 0,
+  "explain": "He becomes half-ghoul."
+ },
+ {
+  "q": "In Fullmetal Alchemist, the ultimate taboo is…",
+  "options": [
+   "Human transmutation",
+   "Using two elements",
+   "Opening the Gate",
+   "Betraying the military"
+  ],
+  "answer": 0,
+  "explain": "Alchemy's biggest sin."
+ },
+ {
+  "q": "Revolutionary Girl Utena's duels are fought for…",
+  "options": [
+   "The Rose Bride",
+   "A crown",
+   "A kingdom",
+   "A magic sword"
+  ],
+  "answer": 0,
+  "explain": "Anthy Himemiya."
+ },
+ {
+  "q": "Kaguya-sama: Love is War is about two students…",
+  "options": [
+   "Trying to make the other confess",
+   "Fighting in a war",
+   "Running a bakery",
+   "Playing chess"
+  ],
+  "answer": 0,
+  "explain": "Psychological warfare of love."
+ },
+ {
+  "q": "Hisoka's Nen type in Hunter x Hunter is…",
+  "options": [
+   "Transmuter",
+   "Enhancer",
+   "Manipulator",
+   "Emitter"
+  ],
+  "answer": 0,
+  "explain": "Bungee Gum has properties of both rubber and gum."
+ },
+ {
+  "q": "How many Dragon Balls summon Shenron?",
+  "options": [
+   "Seven",
+   "Three",
+   "Five",
+   "Ten"
+  ],
+  "answer": 0,
+  "explain": "Count the orbs."
+ },
+ {
+  "q": "Code Geass protagonist Lelouch has the power of…",
+  "options": [
+   "Geass",
+   "Nen",
+   "Chakra",
+   "Ki"
+  ],
+  "answer": 0,
+  "explain": "One command, obeyed once."
+ },
+ {
+  "q": "In Assassination Classroom, the students must kill…",
+  "options": [
+   "Their teacher",
+   "The principal",
+   "A student",
+   "An alien politician"
+  ],
+  "answer": 0,
+  "explain": "Koro-sensei."
+ },
+ {
+  "q": "In Blue Lock, players compete to become…",
+  "options": [
+   "Strikers",
+   "Goalkeepers",
+   "Coaches",
+   "Referees"
+  ],
+  "answer": 0,
+  "explain": "Egoists only."
+ },
+ {
+  "q": "Goku is the protagonist of which franchise?",
+  "options": [
+   "Dragon Ball",
+   "Naruto",
+   "Bleach",
+   "One Piece"
+  ],
+  "answer": 0,
+  "explain": "He collects seven glowing orbs."
+ },
+ {
+  "q": "Ping Pong's hero 'Peco' is really named…",
+  "options": [
+   "Yutaka Hoshino",
+   "Yukio Hoshino",
+   "Yuta Hoshino",
+   "Yuichi Hoshino"
+  ],
+  "answer": 0,
+  "explain": "Hoshi— family name."
+ },
+ {
+  "q": "In Gurren Lagann, drills represent…",
+  "options": [
+   "Spiral power",
+   "Magic",
+   "Science",
+   "Fate"
+  ],
+  "answer": 0,
+  "explain": "Pierce the heavens!"
+ },
+ {
+  "q": "The Road Poneglyphs in One Piece…",
+  "options": [
+   "Reveal the location of Laugh Tale",
+   "Are indestructible weapons",
+   "Grant devil fruit powers",
+   "Summon ancient weapons"
+  ],
+  "answer": 0,
+  "explain": "Four of them make a map."
+ },
+ {
+  "q": "Gintoki Sakata works as…",
+  "options": [
+   "An odd-jobs freelancer",
+   "A samurai lord",
+   "A chef",
+   "A doctor"
+  ],
+  "answer": 0,
+  "explain": "Yorozuya."
+ },
+ {
+  "q": "The director of Akira is…",
+  "options": [
+   "Katsuhiro Otomo",
+   "Mamoru Oshii",
+   "Satoshi Kon",
+   "Hideaki Anno"
+  ],
+  "answer": 0,
+  "explain": "He created the manga too."
+ },
+ {
+  "q": "Dennou Coil lets kids see…",
+  "options": [
+   "A digital layer via glasses",
+   "Ghosts",
+   "Aliens",
+   "Dreams"
+  ],
+  "answer": 0,
+  "explain": "AR glasses, before AR was cool."
+ },
+ {
+  "q": "The Haibane in Haibane Renmei are…",
+  "options": [
+   "Halo-winged beings",
+   "Angels of death",
+   "Robots",
+   "Ghosts"
+  ],
+  "answer": 0,
+  "explain": "They hatch from cocoons."
+ },
+ {
+  "q": "Titan serum in Attack on Titan…",
+  "options": [
+   "Turns Eldians into Titans",
+   "Heals any wound",
+   "Erases memories",
+   "Grants eternal life"
+  ],
+  "answer": 0,
+  "explain": "A spinal fluid injection."
+ },
+ {
+  "q": "The Ghibli film about wartime Japan is…",
+  "options": [
+   "Grave of the Fireflies",
+   "The Wind Rises",
+   "Pom Poko",
+   "Only Yesterday"
+  ],
+  "answer": 0,
+  "explain": "The saddest one. Two siblings."
+ },
+ {
+  "q": "Denji merges with his chainsaw dog named…",
+  "options": [
+   "Pochita",
+   "Ponta",
+   "Piko",
+   "Pawn"
+  ],
+  "answer": 0,
+  "explain": "A little devil dog."
+ },
+ {
+  "q": "Saitama defeats every enemy with…",
+  "options": [
+   "One punch",
+   "A sword",
+   "A rasengan",
+   "His bankai"
+  ],
+  "answer": 0,
+  "explain": "The title says it."
+ },
+ {
+  "q": "Which anime features the Elric brothers?",
+  "options": [
+   "Fullmetal Alchemist",
+   "Fairy Tail",
+   "Black Clover",
+   "Soul Eater"
+  ],
+  "answer": 0,
+  "explain": "Edward and Alphonse."
+ },
+ {
+  "q": "In Erased, Satoru can…",
+  "options": [
+   "Go back in time",
+   "Read minds",
+   "Fly",
+   "See ghosts"
+  ],
+  "answer": 0,
+  "explain": "'Revival'."
+ },
+ {
+  "q": "In Jujutsu Kaisen, Yuji Itadori becomes the vessel of…",
+  "options": [
+   "Sukuna",
+   "Mahito",
+   "Kenjaku",
+   "Mahoraga"
+  ],
+  "answer": 0,
+  "explain": "The King of Curses."
+ },
+ {
+  "q": "The medicine seller's sword in Mononoke…",
+  "options": [
+   "Exorcises mononoke",
+   "Cuts nothing",
+   "Controls weather",
+   "Revives the dead"
+  ],
+  "answer": 0,
+  "explain": "It needs form, truth and regret."
+ },
+ {
+  "q": "Zenitsu's breathing style in Demon Slayer is…",
+  "options": [
+   "Thunder Breathing",
+   "Water Breathing",
+   "Fire Breathing",
+   "Wind Breathing"
+  ],
+  "answer": 0,
+  "explain": "He's the fastest sleeper."
+ },
+ {
+  "q": "Mob Psycho 100 was created by the same author as…",
+  "options": [
+   "One Punch Man",
+   "My Hero Academia",
+   "Gintama",
+   "Assassination Classroom"
+  ],
+  "answer": 0,
+  "explain": "ONE wrote both."
+ },
+ {
+  "q": "Cowboy Bebop's composer is…",
+  "options": [
+   "Yoko Kanno",
+   "Joe Hisaishi",
+   "Hiroyuki Sawano",
+   "Yuki Kajiura"
+  ],
+  "answer": 0,
+  "explain": "The jazz genius."
+ },
+ {
+  "q": "In the Monogatari series, the crab god affects…",
+  "options": [
+   "Senjougahara's weight",
+   "Araragi's shadow",
+   "Hanekawa's memory",
+   "Shinobu's age"
+  ],
+  "answer": 0,
+  "explain": "The 'heavy crab' arc."
+ },
+ {
+  "q": "In Sonny Boy, the students drift…",
+  "options": [
+   "Between parallel worlds",
+   "Through space",
+   "Into the past",
+   "Under the sea"
+  ],
+  "answer": 0,
+  "explain": "The school floats."
+ },
+ {
+  "q": "Spirited Away was made by which studio?",
+  "options": [
+   "Studio Ghibli",
+   "Ufotable",
+   "Madhouse",
+   "Bones"
+  ],
+  "answer": 0,
+  "explain": "Totoro's studio."
+ },
+ {
+  "q": "'Believe it!' is the catchphrase of…",
+  "options": [
+   "Naruto",
+   "Luffy",
+   "Natsu",
+   "Ichigo"
+  ],
+  "answer": 0,
+  "explain": "Dattebayo!"
+ }
+]

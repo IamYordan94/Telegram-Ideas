@@ -77,7 +77,7 @@ def ensure_worker(update):
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ensure_worker(update)
     await update.message.reply_text(
-        "👋 <b>Welcome to WerkNL</b> — Amsterdam jobs for international workers.\n\n"
+        f"👋 <b>Welcome to {config.BRAND_NAME}</b> — {config.BRAND_CITY} jobs for international workers.\n\n"
         "We post real jobs in <b>moving</b>, <b>horeca</b>, and <b>cleaning</b> — "
         "every day, straight to your phone.\n\n"
         "Pick an option below.",
@@ -87,7 +87,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = (
-        "🛠️ <b>WerkNL — commands</b>\n\n"
+        f"🛠️ <b>{config.BRAND_NAME} — commands</b>\n\n"
         "<b>For workers:</b>\n"
         "/start — main menu\n"
         "/jobs — today's jobs in your sectors\n"
@@ -197,7 +197,7 @@ async def post_sector(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await q.answer()
     key = q.data.split(":", 1)[1]
     context.user_data["job"]["sector"] = key
-    await q.edit_message_text("📍 Which area? (e.g. \"Amsterdam West\", \"anywhere in Amsterdam\")")
+    await q.edit_message_text(f"📍 Which area? (e.g. \"{config.BRAND_CITY} West\", \"anywhere in {config.BRAND_CITY}\")")
     return AREA
 
 
@@ -323,7 +323,7 @@ async def cmd_approve(update: Update, context: ContextTypes.DEFAULT_TYPE):
         try:
             await context.bot.send_message(
                 chat_id=job["employer_id"],
-                text=f"✅ Your job \"{job['title']}\" is now live on WerkNL.",
+                text=f"✅ Your job \"{job['title']}\" is now live on {config.BRAND_NAME}.",
             )
         except Exception:
             pass
@@ -376,7 +376,7 @@ async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     s = db.stats(config.DB_PATH)
     text = (
-        "📊 <b>WerkNL stats</b>\n\n"
+        f"📊 <b>{config.BRAND_NAME} stats</b>\n\n"
         f"Workers: {s['workers']} (premium: {s['premium_workers']})\n"
         f"Employers: {s['employers']}\n"
         f"Active jobs: {s['active_jobs']}\n"
@@ -477,7 +477,7 @@ async def on_sector_cb(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 f"✅ Sectors saved: {labels}\n\n"
                 "You'll get new jobs here — daily digest at 8:00, and every post has "
                 "a button to respond (💬 Chat / 🔗 Open ad).\n\n"
-                "📣 Also follow the job channel for everything: @werknl_ams"
+                f"📣 Also follow the job channel for everything: {config.CHANNEL_USERNAME}"
             )
         else:
             summary = "No sectors selected — you won't get alerts until you pick some. Use /sectors anytime."
