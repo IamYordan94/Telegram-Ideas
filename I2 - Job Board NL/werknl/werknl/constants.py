@@ -7,9 +7,9 @@ SECTORS = {
 }
 
 PRICING = {
-    "per_post": 7,
-    "pack_10": 49,
-    "monthly": 79,
+    "per_post": 5,
+    "pack_10": 35,
+    "monthly": 59,
     "featured": 5,
     "premium_worker_monthly": 1.99,
 }

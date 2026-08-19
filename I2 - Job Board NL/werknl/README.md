@@ -4,7 +4,7 @@ A Telegram bot + channel that connects international workers in Amsterdam with
 real jobs in **moving**, **horeca**, and **cleaning**.
 
 - **Workers join free** — pick their sectors, get job alerts.
-- **Employers pay** to post jobs (€7/post, €49/10-pack, €79/mo unlimited).
+- **Employers pay** to post jobs (€5/post, €35/10-pack, €59/mo unlimited).
 - **You (admin) approve** every job before it goes live — no fake jobs, no junk.
 
 ## What the bot does

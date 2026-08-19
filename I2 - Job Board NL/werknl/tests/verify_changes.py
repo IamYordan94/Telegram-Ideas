@@ -139,6 +139,17 @@ def test_autoapprove_scheduled():
     assert 'run_daily(daily_seed_autoapprove' in src
 check('bot: daily_seed_autoapprove defined + scheduled', test_autoapprove_scheduled)
 
+# ── 7. pricing (updated 2026-08-19: €5 / €35 / €59) ──
+def test_pricing():
+    from werknl.constants import PRICING
+    from werknl.formatting import pricing_text
+    assert PRICING['per_post'] == 5
+    assert PRICING['pack_10'] == 35
+    assert PRICING['monthly'] == 59
+    t = pricing_text()
+    assert '€5' in t and '€35' in t and '€59' in t and '€3.50/post' in t
+check('pricing: €5 / €35 / €59 live in constants + pricing text', test_pricing)
+
 print()
 if FAILED:
     print('FAILED: ' + ', '.join(FAILED))
