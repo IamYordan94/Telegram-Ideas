@@ -81,7 +81,7 @@ LEADERBOARD_DAY = WEEKDAYS["sunday"]   # weekly leaderboard posts on Sunday
 LEADERBOARD_TIME = "18:00"
 
 # ConversationHandler states
-NAME, DEPARTMENT, LANGUAGE = range(3)
+NAME, DEPARTMENT, LANGUAGE, PICK = range(4)
 
 
 def esc(s) -> str:
@@ -462,18 +462,65 @@ async def on_answer(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # ── employee registration (/start → name → department → language) ───────────
 
+def company_keyboard(tenants):
+    """Pick-a-company inline keyboard. None when 0 or 1 company (single auto-assigns)."""
+    if len(tenants) <= 1:
+        return None
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton(t["name"], callback_data=f"pick:{t['id']}")]
+        for t in tenants
+    ])
+
+
 async def reg_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    chat_id = update.effective_chat.id
-    tenant = _find_tenant_by_group(chat_id)
-    if not tenant:
+    chat = update.effective_chat
+    tenant = _find_tenant_by_group(chat.id)
+    if tenant:
+        context.user_data["tenant_id"] = tenant["id"]
+        context.user_data["tenant_name"] = tenant["name"]
         await update.effective_message.reply_text(
-            "Run /start inside your company's group chat to register."
+            f"👋 Welcome to <b>{esc(tenant['name'])}</b> staff training!\nWhat's your name?",
+            parse_mode=ParseMode.HTML,
         )
-        return ConversationHandler.END
-    context.user_data["tenant_id"] = tenant["id"]
-    context.user_data["tenant_name"] = tenant["name"]
+        return NAME
+    if chat.type == "private":
+        tenants = [t for t in db.list_tenants(config.DB_PATH) if t["active"]]
+        if not tenants:
+            await update.effective_message.reply_text(
+                "No company is set up yet.\n"
+                "The owner adds one by running /addcompany INSIDE the company group."
+            )
+            return ConversationHandler.END
+        if len(tenants) == 1:
+            context.user_data["tenant_id"] = tenants[0]["id"]
+            context.user_data["tenant_name"] = tenants[0]["name"]
+            await update.effective_message.reply_text(
+                f"👋 Welcome to <b>{esc(tenants[0]['name'])}</b> staff training!\nWhat's your name?",
+                parse_mode=ParseMode.HTML,
+            )
+            return NAME
+        await update.effective_message.reply_text(
+            "Which company are you with?", reply_markup=company_keyboard(tenants),
+        )
+        return PICK
     await update.effective_message.reply_text(
-        f"👋 Welcome to <b>{esc(tenant['name'])}</b> staff training!\nWhat's your name?",
+        "Run /start inside your company's group chat, or in a private chat with me."
+    )
+    return ConversationHandler.END
+
+
+async def reg_pick(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    q = update.callback_query
+    await q.answer()
+    tid = int(q.data.split(":", 1)[1])
+    t = db.get_tenant_by_id(config.DB_PATH, tid)
+    if not t:
+        await q.edit_message_text("Unknown company — /start again.")
+        return ConversationHandler.END
+    context.user_data["tenant_id"] = t["id"]
+    context.user_data["tenant_name"] = t["name"]
+    await q.edit_message_text(
+        f"👋 Welcome to <b>{esc(t['name'])}</b> staff training!\nWhat's your name?",
         parse_mode=ParseMode.HTML,
     )
     return NAME
@@ -600,19 +647,37 @@ async def cmd_tenants(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("\n".join(lines), parse_mode=ParseMode.HTML)
 
 
+def parse_addcompany_args(text, chat_type, chat_id):
+    """Parse an /addcompany message into [slug, name, group, bank, qtime].
+
+    Two accepted forms:
+      5 parts: slug|Name|group_id|bank|HH:MM   (group id or @username; remote setup)
+      4 parts: slug|Name|bank|HH:MM            (sent FROM the company group — that group is used)
+    Returns (parts_list_or_empty, error_message_or_empty).
+    """
+    arg = text.split(" ", 1)[1] if " " in text else ""
+    parts = [p.strip() for p in arg.split("|")] if arg else []
+    if len(parts) == 5:
+        return parts, ""
+    if len(parts) == 4 and chat_type in ("group", "supergroup"):
+        return [parts[0], parts[1], str(chat_id), parts[2], parts[3]], ""
+    return [], (
+        "Format: /addcompany slug|Name|group_id|bank|HH:MM\n"
+        "or — much easier — run it INSIDE the company group as:\n"
+        "/addcompany slug|Name|bank|HH:MM"
+    )
+
+
 async def cmd_addcompany(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not owner_only(update):
         return
-    arg = update.message.text.split(" ", 1)[1] if " " in update.message.text else ""
-    parts = arg.split("|")
-    if len(parts) != 5:
-        await update.message.reply_text(
-            "Format: /addcompany slug|Name|group_id|bank|HH:MM\n"
-            "group_id can be numeric (-100...) or @username. The bot must already "
-            "be an admin of the group."
-        )
+    parts, err = parse_addcompany_args(
+        update.message.text, update.effective_chat.type, update.effective_chat.id,
+    )
+    if err:
+        await update.message.reply_text(err)
         return
-    slug, name, group, bankname, qtime = (p.strip() for p in parts)
+    slug, name, group, bankname, qtime = parts
     if not slug or not name or not group or not bankname:
         await update.message.reply_text("Every field must be filled — no empty slots.")
         return
@@ -651,6 +716,19 @@ async def cmd_addcompany(update: Update, context: ContextTypes.DEFAULT_TYPE):
         f"Subscription: run /paid {esc(slug)} N (free month to start if you want).",
         parse_mode=ParseMode.HTML,
     )
+    try:
+        await context.bot.send_message(
+            chat_id=chat.id,
+            text=(
+                f"👋 <b>{esc(name)}</b> staff training is live!\n"
+                f"A question or flashcard drops every day at <b>{esc(qtime)}</b>.\n"
+                f"Register with /start in a private chat with me, "
+                f"then tap your answers right here."
+            ),
+            parse_mode=ParseMode.HTML,
+        )
+    except Exception:
+        pass  # group welcome is best-effort
 
 
 async def cmd_fun(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -796,6 +874,7 @@ def build_application() -> Application:
             NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, reg_name)],
             DEPARTMENT: [MessageHandler(filters.TEXT & ~filters.COMMAND, reg_department)],
             LANGUAGE: [CallbackQueryHandler(reg_language, pattern="^lang:")],
+            PICK: [CallbackQueryHandler(reg_pick, pattern="^pick:")],
         },
         fallbacks=[CommandHandler("cancel", reg_cancel)],
     )

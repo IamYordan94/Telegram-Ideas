@@ -250,6 +250,29 @@ def main():
     check("build_application callable", callable(bot.build_application))
     check("main callable", callable(bot.main))
 
+    # ── onboarding UX (addcompany forms + company pick) ──
+    parts, err = bot.parse_addcompany_args(
+        "/addcompany acme|Acme BV|-100123|demo.json|09:00", "private", 111)
+    check("addcompany: 5-part form parses", err == "" and parts[0] == "acme" and parts[2] == "-100123")
+    parts, err = bot.parse_addcompany_args(
+        "/addcompany acme|Acme BV|demo.json|09:00", "group", -100777)
+    check("addcompany: 4-part form in group uses chat id",
+          err == "" and parts[2] == "-100777" and parts[3] == "demo.json")
+    parts, err = bot.parse_addcompany_args(
+        "/addcompany acme|Acme BV|demo.json|09:00", "private", 111)
+    check("addcompany: 4-part form in DM rejected with hint",
+          err != "" and "INSIDE the company group" in err)
+    parts, err = bot.parse_addcompany_args("/addcompany", "private", 111)
+    check("addcompany: no args rejected", err != "" and parts == [])
+    kb = bot.company_keyboard([])
+    check("company pick: 0 companies → no keyboard", kb is None)
+    kb = bot.company_keyboard([{"id": 1, "name": "Only Co"}])
+    check("company pick: 1 company → no keyboard (auto-assign)", kb is None)
+    kb = bot.company_keyboard([{"id": 1, "name": "A"}, {"id": 2, "name": "B"}])
+    check("company pick: 2 companies → 2 buttons",
+          kb is not None and len(kb.inline_keyboard) == 2
+          and kb.inline_keyboard[0][0].callback_data == "pick:1")
+
     print()
     if FAILS:
         print(f"{len(FAILS)} FAILED: {FAILS}")
