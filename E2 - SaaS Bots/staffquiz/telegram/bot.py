@@ -63,7 +63,7 @@ from telegram.ext import (
 )
 
 import config
-from staffquiz.core import bank, db, schedule
+from staffquiz.core import bank, content, db, schedule
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("staffquiz")
@@ -332,6 +332,15 @@ def _employee_week_correct(tenant_id, employee_id, days=7) -> int:
 
 # ── scheduled posting ──
 
+def build_announcement_text(tenant, sent: int) -> str:
+    """Group announcement for a question day: answers happen in DMs (private)."""
+    return (
+        f"🎯 <b>{esc(tenant['name'])}</b> — today's question is out!\n"
+        f"Answer in your <b>private chat</b> with me ({sent} player{'s' if sent != 1 else ''} in).\n"
+        f"Your answer stays private — the leaderboard is the only public part."
+    )
+
+
 async def post_daily_item(context, tenant_id):
     t = db.get_tenant_by_id(config.DB_PATH, tenant_id)
     if not t or not t["active"]:
@@ -349,23 +358,60 @@ async def post_daily_item(context, tenant_id):
     item, _ = bank.next_item(b, t["q_index"])
 
     if item_kind(item) == "flashcard":
-        msg = await context.bot.send_message(
-            chat_id=t["group_id"],
-            text=build_flashcard_text(t, item, t["q_index"]),
-            parse_mode=ParseMode.HTML,
-        )
+        # flashcards carry no answers — but in pure-DM mode everyone gets their
+        # own copy; a configured group also gets a mirror for visibility
+        sent = 0
+        for emp in db.list_employees(config.DB_PATH, t["id"]):
+            try:
+                await context.bot.send_message(
+                    chat_id=int(emp["uid"]),
+                    text=build_flashcard_text(t, item, t["q_index"]),
+                    parse_mode=ParseMode.HTML,
+                )
+                sent += 1
+            except Exception:
+                continue
+        if t.get("group_id"):
+            try:
+                await context.bot.send_message(
+                    chat_id=t["group_id"],
+                    text=build_flashcard_text(t, item, t["q_index"]),
+                    parse_mode=ParseMode.HTML,
+                )
+            except Exception:
+                pass
+        logger.info("tenant %s: flashcard to %s DMs", t["slug"], sent)
     else:
-        msg = await context.bot.send_message(
-            chat_id=t["group_id"],
-            text=build_question_text(t, item, t["q_index"]),
-            parse_mode=ParseMode.HTML,
-            reply_markup=answer_keyboard(t["id"], t["q_index"]),
-        )
+        # questions: DM each registered employee so answers stay private;
+        # an optional group only gets an announcement (scoreboard mirror)
+        sent = 0
+        for emp in db.list_employees(config.DB_PATH, t["id"]):
+            try:
+                await context.bot.send_message(
+                    chat_id=int(emp["uid"]),
+                    text=build_question_text(t, item, t["q_index"]),
+                    parse_mode=ParseMode.HTML,
+                    reply_markup=answer_keyboard(t["id"], t["q_index"]),
+                )
+                sent += 1
+            except Exception:
+                continue  # employee blocked the bot — skip silently
+        msg = None
+        if t.get("group_id"):
+            try:
+                msg = await context.bot.send_message(
+                    chat_id=t["group_id"],
+                    text=build_announcement_text(t, sent),
+                    parse_mode=ParseMode.HTML,
+                )
+            except Exception:
+                pass  # group gone — DMs still went out
+        logger.info("tenant %s: question to %s DMs", t["slug"], sent)
     _store_post(t["id"], t["q_index"], item)
     # advance the rotation only after the post actually landed
     db.set_q_index(config.DB_PATH, t["id"], t["q_index"] + 1)
-    logger.info("tenant %s: posted %s #%s (mid %s)",
-                t["slug"], item_kind(item), t["q_index"] + 1, msg.message_id)
+    logger.info("tenant %s: posted %s #%s",
+                t["slug"], item_kind(item), t["q_index"] + 1)
     return msg
 
 
@@ -375,12 +421,24 @@ async def post_leaderboard(context, tenant_id):
         return
     top = db.week_leaderboard(config.DB_PATH, t["id"], days=7, limit=10)
     departments = db.department_board(config.DB_PATH, t["id"], days=7)
-    await context.bot.send_message(
-        chat_id=t["group_id"],
-        text=build_leaderboard_text(t, top, departments),
-        parse_mode=ParseMode.HTML,
-    )
-    logger.info("tenant %s: leaderboard posted", t["slug"])
+    text = build_leaderboard_text(t, top, departments)
+    sent = 0
+    for emp in db.list_employees(config.DB_PATH, t["id"]):
+        try:
+            await context.bot.send_message(
+                chat_id=int(emp["uid"]), text=text, parse_mode=ParseMode.HTML,
+            )
+            sent += 1
+        except Exception:
+            continue
+    if t.get("group_id"):
+        try:
+            await context.bot.send_message(
+                chat_id=t["group_id"], text=text, parse_mode=ParseMode.HTML,
+            )
+        except Exception:
+            pass
+    logger.info("tenant %s: leaderboard to %s DMs", t["slug"], sent)
 
 
 def _today_weekday() -> str:
@@ -472,8 +530,44 @@ def company_keyboard(tenants):
     ])
 
 
+def resolve_start_tenant(tenants, args):
+    """Deep-link support: /start SLUG preselects that company.
+
+    Returns the tenant dict, or None when args are empty/unknown.
+    """
+    if not args:
+        return None
+    slug = args[0].strip().lower()
+    for t in tenants:
+        if t["slug"].lower() == slug and t["active"]:
+            return t
+    return None
+
+
+def tenant_admin_for_uid(tenants, uid):
+    """The tenant this user administers (their 'mini-key'), or None."""
+    for t in tenants:
+        if t.get("admin_id") == uid:
+            return t
+    return None
+
+
+def registration_link(slug: str) -> str:
+    return f"t.me/{config.BOT_USERNAME}?start={slug}"
+
+
 async def reg_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat = update.effective_chat
+    tenants = [t for t in db.list_tenants(config.DB_PATH) if t["active"]]
+    deep = resolve_start_tenant(tenants, context.args) if chat.type == "private" else None
+    if deep:
+        context.user_data["tenant_id"] = deep["id"]
+        context.user_data["tenant_name"] = deep["name"]
+        await update.effective_message.reply_text(
+            f"👋 Welcome to <b>{esc(deep['name'])}</b> staff training!\nWhat's your name?",
+            parse_mode=ParseMode.HTML,
+        )
+        return NAME
     tenant = _find_tenant_by_group(chat.id)
     if tenant:
         context.user_data["tenant_id"] = tenant["id"]
@@ -484,7 +578,6 @@ async def reg_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
         return NAME
     if chat.type == "private":
-        tenants = [t for t in db.list_tenants(config.DB_PATH) if t["active"]]
         if not tenants:
             await update.effective_message.reply_text(
                 "No company is set up yet.\n"
@@ -612,12 +705,14 @@ async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if owner_only(update):
         await update.message.reply_text(
             "🧠 <b>StaffQuiz owner console</b>\n\n"
-            "/addcompany slug|Name|group_id|bank|HH:MM\n"
+            "/addcompany slug|Name|group_id|bank|HH:MM — or 4-part form inside the company group\n"
+            "/feed bankfile.json — add questions/cards (or the company admin's own /feed)\n"
+            "/setadmin slug TELEGRAM_ID — give the buyer their mini-key\n"
             "/fun slug friday:scifi.json,saturday:general.json\n"
             "/report slug — aggregate staff report (DM, anonymous)\n"
             "/quiznow slug · /leaderboard slug\n"
             "/tenants · /paid slug N · /suspend slug · /activate slug\n"
-            "/me — your own stats",
+            "/me — your own stats · /myid — your telegram id",
             parse_mode=ParseMode.HTML,
         )
     else:
@@ -651,21 +746,19 @@ def parse_addcompany_args(text, chat_type, chat_id):
     """Parse an /addcompany message into [slug, name, group, bank, qtime].
 
     Two accepted forms:
-      5 parts: slug|Name|group_id|bank|HH:MM   (group id or @username; remote setup)
-      4 parts: slug|Name|bank|HH:MM            (sent FROM the company group — that group is used)
-    Returns (parts_list_or_empty, error_message_or_empty).
+      5 parts: slug|Name|group_id|bank|HH:MM   (group id or @username; scoreboard mirror)
+      4 parts: slug|Name|bank|HH:MM            (pure-DM mode — no group at all.
+                                               Sent FROM a group, that group is used as mirror.)
+    Returns (parts_list_or_empty, error_message_or_empty). The group slot may be ''.
     """
     arg = text.split(" ", 1)[1] if " " in text else ""
     parts = [p.strip() for p in arg.split("|")] if arg else []
     if len(parts) == 5:
         return parts, ""
-    if len(parts) == 4 and chat_type in ("group", "supergroup"):
-        return [parts[0], parts[1], str(chat_id), parts[2], parts[3]], ""
-    return [], (
-        "Format: /addcompany slug|Name|group_id|bank|HH:MM\n"
-        "or — much easier — run it INSIDE the company group as:\n"
-        "/addcompany slug|Name|bank|HH:MM"
-    )
+    if len(parts) == 4:
+        group = str(chat_id) if chat_type in ("group", "supergroup") else ""
+        return [parts[0], parts[1], group, parts[2], parts[3]], ""
+    return [], "Format: /addcompany slug|Name|bank|HH:MM (group is optional these days)"
 
 
 async def cmd_addcompany(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -678,7 +771,7 @@ async def cmd_addcompany(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(err)
         return
     slug, name, group, bankname, qtime = parts
-    if not slug or not name or not group or not bankname:
+    if not slug or not name or not bankname:
         await update.message.reply_text("Every field must be filled — no empty slots.")
         return
     if db.get_tenant(config.DB_PATH, slug):
@@ -694,41 +787,48 @@ async def cmd_addcompany(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except ValueError as e:
         await update.message.reply_text(str(e))
         return
-    try:
-        chat = await context.bot.get_chat(group)
-    except Exception as e:
-        await update.message.reply_text(
-            f"Group '{group}' not reachable: {e}\n"
-            "The bot must already be an admin of the group."
-        )
-        return
-    if chat.type not in ("group", "supergroup"):
-        await update.message.reply_text(
-            f"'{group}' is not a group — StaffQuiz posts into groups/supergroups only."
-        )
-        return
-    tid = db.add_tenant(config.DB_PATH, slug, name, str(chat.id), bankname, quiz_time=qtime)
+    group_id = None
+    if group:
+        try:
+            chat = await context.bot.get_chat(group)
+        except Exception as e:
+            await update.message.reply_text(
+                f"Group '{group}' not reachable: {e}\n"
+                "The bot must already be an admin of the group (or leave the group out)."
+            )
+            return
+        if chat.type not in ("group", "supergroup"):
+            await update.message.reply_text(
+                f"'{group}' is not a group — leave the group slot empty for pure-DM mode."
+            )
+            return
+        group_id = str(chat.id)
+    tid = db.add_tenant(config.DB_PATH, slug, name, group_id, bankname, quiz_time=qtime)
     t = db.get_tenant_by_id(config.DB_PATH, tid)
     _schedule_tenant(context.application, t)
     await update.message.reply_text(
         f"✅ Company <b>{esc(name)}</b> live.\n"
-        f"Daily quiz at {esc(qtime)} in {esc(group)}.\n"
-        f"Subscription: run /paid {esc(slug)} N (free month to start if you want).",
+        f"Daily quiz at {esc(qtime)} — delivered to each employee's DM.\n"
+        f"Staff registration link: {registration_link(slug)}\n"
+        f"Give the buyer their mini-key: /setadmin {esc(slug)} TELEGRAM_ID\n"
+        f"Subscription: /paid {esc(slug)} N (free month to start if you want).",
         parse_mode=ParseMode.HTML,
     )
-    try:
-        await context.bot.send_message(
-            chat_id=chat.id,
-            text=(
-                f"👋 <b>{esc(name)}</b> staff training is live!\n"
-                f"A question or flashcard drops every day at <b>{esc(qtime)}</b>.\n"
-                f"Register with /start in a private chat with me, "
-                f"then tap your answers right here."
-            ),
-            parse_mode=ParseMode.HTML,
-        )
-    except Exception:
-        pass  # group welcome is best-effort
+    if group_id:
+        try:
+            await context.bot.send_message(
+                chat_id=group_id,
+                text=(
+                    f"👋 <b>{esc(name)}</b> staff training is live!\n"
+                    f"A question or flashcard drops every day at <b>{esc(qtime)}</b> "
+                    f"in each staff member's DM.\n"
+                    f"Staff: tap {registration_link(slug)} to register.\n"
+                    f"Answers stay private — only the leaderboard is public."
+                ),
+                parse_mode=ParseMode.HTML,
+            )
+        except Exception:
+            pass  # group welcome is best-effort
 
 
 async def cmd_fun(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -757,19 +857,258 @@ async def cmd_fun(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("\n".join(lines), parse_mode=ParseMode.HTML)
 
 
-async def cmd_report(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not owner_only(update):
-        return
-    slug = update.message.text.split(" ", 1)[1].strip() if " " in update.message.text else ""
-    t = db.get_tenant(config.DB_PATH, slug)
+def _resolve_report_tenant(update):
+    """Who may see a report: the owner (any company) or a tenant admin (own company)."""
+    uid = update.effective_user.id
+    tenants = db.list_tenants(config.DB_PATH)
+    if uid == config.OWNER_ADMIN_ID:
+        slug = update.message.text.split(" ", 1)[1].strip() if " " in update.message.text else ""
+        t = db.get_tenant(config.DB_PATH, slug)
+        if not t:
+            return None, f"No company '{slug}'."
+        return t, ""
+    t = tenant_admin_for_uid(tenants, uid)
     if not t:
-        await update.message.reply_text(f"No company '{slug}'.")
+        return None, "Only the owner or a company admin can see reports."
+    return t, ""
+
+
+async def cmd_report(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    t, err = _resolve_report_tenant(update)
+    if err:
+        await update.message.reply_text(err)
         return
     report = db.aggregate_report(config.DB_PATH, t["id"])
     # PRIVACY: this report is deliberately aggregate + anonymous. There are no
     # per-employee lines here and there never will be — managers see gaps, not
     # people (that's both the pitch and the legal-safe design, see README).
     await update.message.reply_text(build_report_text(t, report), parse_mode=ParseMode.HTML)
+
+
+async def cmd_setadmin(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Owner-only: give the buyer a mini-key (/setadmin slug THEIR_TELEGRAM_ID)."""
+    if not owner_only(update):
+        return
+    parts = update.message.text.split()
+    if len(parts) != 3:
+        await update.message.reply_text(
+            "Usage: /setadmin slug TELEGRAM_ID\n"
+            "The manager can find their id with /myid in their own chat with the bot."
+        )
+        return
+    slug, id_s = parts[1], parts[2]
+    t = db.get_tenant(config.DB_PATH, slug)
+    if not t:
+        await update.message.reply_text(f"No company '{slug}'.")
+        return
+    try:
+        admin_id = int(id_s)
+    except ValueError:
+        await update.message.reply_text("Telegram id must be a number (see /myid).")
+        return
+    db.set_tenant_admin(config.DB_PATH, t["id"], admin_id)
+    await update.message.reply_text(
+        f"✅ '{slug}' admin set. They can now /feed content and /report — "
+        f"but not /addcompany, /paid or /suspend."
+    )
+
+
+async def cmd_myid(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Anyone: replies with the sender's numeric Telegram id (for /setadmin)."""
+    await update.message.reply_text(f"Your Telegram id: {update.effective_user.id}")
+
+
+# ── /feed: the manager feeds content straight into the bank ─────────────────
+
+FEED_TEXT, FEED_CONFIRM = range(2)
+
+
+def parse_feed_command(update, tenants):
+    """Resolve who feeds which bank file.
+
+    Returns (bank_file, tenant_or_None, error_or_empty). Owner may feed any
+    bank file; a tenant admin may feed only their own company's default bank.
+    """
+    uid = update.effective_user.id
+    arg = update.message.text.split(" ", 1)[1].strip() if " " in update.message.text else ""
+    if uid == config.OWNER_ADMIN_ID:
+        if arg:
+            return arg, None, ""
+        return "", None, "Usage: /feed bankfile.json (or /feed inside a company's bot chat as their admin)"
+    t = tenant_admin_for_uid(tenants, uid)
+    if not t:
+        return "", None, "Only the owner or a company admin can feed content."
+    if arg and arg != t["default_bank"]:
+        return "", None, f"You can only feed your company's bank ({t['default_bank']})."
+    return t["default_bank"], t, ""
+
+
+async def cmd_feed(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    bank_file, tenant, err = parse_feed_command(update, db.list_tenants(config.DB_PATH))
+    if err:
+        await update.message.reply_text(err)
+        return ConversationHandler.END
+    context.user_data["feed_bank"] = bank_file
+    who = f" ({tenant['name']})" if tenant else ""
+    await update.message.reply_text(
+        f"📥 Feeding <b>{esc(bank_file)}</b>{esc(who)}.\n\n"
+        f"Paste your content — one item per line:\n"
+        f"<code>Q: your question? | A) .. | B) .. | C) .. | D) .. | answer: A | topic: .. | explain: ..</code>\n"
+        f"<code>CARD: front text | BACK: back text | topic: ..</code>\n\n"
+        f"Send it as one message. /cancel to abort.",
+        parse_mode=ParseMode.HTML,
+    )
+    return FEED_TEXT
+
+
+async def feed_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    text = update.message.text or ""
+    try:
+        items = content.parse_typed_notes(text)
+    except ValueError as e:
+        await update.message.reply_text(f"❌ {e}\nFix the lines and send again, or /cancel.")
+        return FEED_TEXT
+    context.user_data["feed_items"] = items
+    preview_lines = ["📝 Preview — first 3 items:"]
+    for it in items[:3]:
+        if it["type"] == "question":
+            preview_lines.append(f"• Q: {it['q'][:60]}")
+        else:
+            preview_lines.append(f"• CARD: {it['front'][:60]}")
+    preview_lines.append("")
+    preview_lines.append(f"Total: <b>{len(items)}</b> items.")
+    kb = InlineKeyboardMarkup([[
+        InlineKeyboardButton(f"✅ Approve ({len(items)})", callback_data="feed:ok"),
+        InlineKeyboardButton("❌ Cancel", callback_data="feed:cancel"),
+    ]])
+    await update.message.reply_text("\n".join(preview_lines), parse_mode=ParseMode.HTML, reply_markup=kb)
+    return FEED_CONFIRM
+
+
+async def feed_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    q = update.callback_query
+    await q.answer()
+    action = q.data.split(":", 1)[1]
+    bank_file = context.user_data.get("feed_bank", "")
+    if action == "cancel" or not bank_file:
+        await q.edit_message_text("Feeding cancelled.")
+        return ConversationHandler.END
+    items = context.user_data.get("feed_items", [])
+    if not items:
+        await q.edit_message_text("Nothing to add.")
+        return ConversationHandler.END
+    path = Path(config.BANKS_DIR) / bank_file
+    existing = []
+    if path.is_file():
+        try:
+            existing = bank.load_bank(config.BANKS_DIR, bank_file)
+        except Exception as e:
+            await q.edit_message_text(f"❌ Existing bank failed to load: {e}")
+            return ConversationHandler.END
+    merged, added, skipped = bank.dedupe_merge(existing, items)
+    path.write_text(content.items_to_bank_json(merged), encoding="utf-8")
+    await q.edit_message_text(
+        f"✅ Bank <b>{esc(bank_file)}</b> updated: +{added} new, {skipped} duplicates skipped."
+        f"\nThey enter the daily rotation automatically.",
+        parse_mode=ParseMode.HTML,
+    )
+    return ConversationHandler.END
+
+
+async def feed_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Feeding cancelled.")
+    return ConversationHandler.END
+
+
+# ── self-serve signup: /createcompany (the manager signs in themselves) ─────
+
+def parse_createcompany_args(text):
+    """Parse '/createcompany slug|Company Name|HH:MM' (private chat).
+
+    Returns (slug, name, qtime, error_or_empty).
+    """
+    arg = text.split(" ", 1)[1] if " " in text else ""
+    parts = [p.strip() for p in arg.split("|")] if arg else []
+    if len(parts) == 3 and parts[0] and parts[1]:
+        return parts[0], parts[1], parts[2], ""
+    return "", "", "", "Format: /createcompany slug|Company Name|HH:MM"
+
+
+async def cmd_createcompany(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.effective_chat.type != "private":
+        await update.message.reply_text("Run this in a private chat with me.")
+        return
+    slug, name, qtime, err = parse_createcompany_args(update.message.text)
+    if err:
+        await update.message.reply_text(err)
+        return
+    if db.get_tenant(config.DB_PATH, slug):
+        await update.message.reply_text(f"Slug '{slug}' already exists — pick another.")
+        return
+    try:
+        parse_hm(qtime)
+    except ValueError as e:
+        await update.message.reply_text(str(e))
+        return
+    src = Path(config.BANKS_DIR) / "starter.json"
+    if not src.is_file():
+        await update.message.reply_text("Starter bank is missing — contact the owner.")
+        return
+    try:
+        starter = bank.load_bank(config.BANKS_DIR, "starter.json")
+    except Exception as e:
+        await update.message.reply_text(f"Starter bank failed to load: {e}")
+        return
+    own_bank = f"{slug}.json"
+    (Path(config.BANKS_DIR) / own_bank).write_text(
+        content.items_to_bank_json(starter), encoding="utf-8"
+    )
+    tid = db.add_tenant(config.DB_PATH, slug, name, group_id=None,
+                        default_bank=own_bank, quiz_time=qtime)
+    db.set_tenant_admin(config.DB_PATH, tid, update.effective_user.id)
+    _extend_paid(tid, 14)  # 14-day free trial
+    t = db.get_tenant_by_id(config.DB_PATH, tid)
+    _schedule_tenant(context.application, t)
+    await update.message.reply_text(
+        f"✅ <b>{esc(name)}</b> is live — <b>14-day free trial!</b>\n"
+        f"Staff link (share it with your team): {registration_link(slug)}\n"
+        f"Replace the starter content with your own: /feed\n"
+        f"Daily question drops into each registered employee's DM at <b>{esc(qtime)}</b>.\n"
+        f"Your weekly gap report: /report",
+        parse_mode=ParseMode.HTML,
+    )
+
+
+# ── /invite: print the staff registration link ───────────────────────────────
+
+def resolve_invite_tenant(uid, tenants, slug):
+    """Who may invite: owner (slug required) or a tenant admin (own company).
+
+    Returns (tenant_or_None, error_or_empty).
+    """
+    if uid == config.OWNER_ADMIN_ID:
+        if not slug:
+            return None, "Usage: /invite slug"
+        for t in tenants:
+            if t["slug"] == slug:
+                return t, ""
+        return None, f"No company '{slug}'."
+    t = tenant_admin_for_uid(tenants, uid)
+    if not t:
+        return None, "Only the owner or a company admin can invite."
+    return t, ""
+
+
+async def cmd_invite(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    slug = update.message.text.split(" ", 1)[1].strip() if " " in update.message.text else ""
+    t, err = resolve_invite_tenant(update.effective_user.id, db.list_tenants(config.DB_PATH), slug)
+    if err:
+        await update.message.reply_text(err)
+        return
+    await update.message.reply_text(
+        f"📣 Share this with your staff — tapping it opens me and starts registration:\n\n"
+        f"{registration_link(t['slug'])}",
+    )
 
 
 async def cmd_quiznow(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -782,7 +1121,7 @@ async def cmd_quiznow(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return
     try:
         await post_daily_item(context, t["id"])
-        await update.message.reply_text(f"✅ Item posted to {t['group_id']}.")
+        await update.message.reply_text(f"✅ Item posted to the employees' DMs.")
     except Exception as e:
         await update.message.reply_text(f"❌ Post failed: {e}")
 
@@ -878,10 +1217,23 @@ def build_application() -> Application:
         },
         fallbacks=[CommandHandler("cancel", reg_cancel)],
     )
+    feed_conv = ConversationHandler(
+        entry_points=[CommandHandler("feed", cmd_feed)],
+        states={
+            FEED_TEXT: [MessageHandler(filters.TEXT & ~filters.COMMAND, feed_text)],
+            FEED_CONFIRM: [CallbackQueryHandler(feed_confirm, pattern="^feed:")],
+        },
+        fallbacks=[CommandHandler("cancel", feed_cancel)],
+    )
     app.add_handler(conv)
+    app.add_handler(feed_conv)
     app.add_handler(CommandHandler("me", cmd_me))
     app.add_handler(CommandHandler("help", cmd_help))
+    app.add_handler(CommandHandler("myid", cmd_myid))
     app.add_handler(CommandHandler("addcompany", cmd_addcompany))
+    app.add_handler(CommandHandler("setadmin", cmd_setadmin))
+    app.add_handler(CommandHandler("createcompany", cmd_createcompany))
+    app.add_handler(CommandHandler("invite", cmd_invite))
     app.add_handler(CommandHandler("fun", cmd_fun))
     app.add_handler(CommandHandler("report", cmd_report))
     app.add_handler(CommandHandler("quiznow", cmd_quiznow))

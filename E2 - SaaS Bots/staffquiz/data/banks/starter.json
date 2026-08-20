@@ -1,0 +1,8 @@
+[
+ {"type": "flashcard", "topic": "welcome", "front": "How StaffQuiz works", "back": "Every day one question + one flashcard arrive in your private chat. Answer within the day. The Sunday leaderboard shows the team's best scorers — your answers stay private."},
+ {"type": "flashcard", "topic": "welcome", "front": "Why training every day?", "back": "Small daily doses beat one big workshop — the memory science of repetition. Two minutes a day keeps the whole team sharp."},
+ {"type": "question", "topic": "welcome", "q": "When does the daily question arrive?", "options": ["When the manager feels like it", "Every day at the time your company chose", "Only on Mondays", "Twice a month"], "answer": 1, "explain": "Your company picked a daily time when we started — same time, every day, no exceptions."},
+ {"type": "question", "topic": "welcome", "q": "Who can see your answers?", "options": ["Everyone in the company", "Your manager", "Only you — answers are private", "The whole internet"], "answer": 2, "explain": "Answers stay in your private chat. The manager only sees team-level statistics, never who answered what."},
+ {"type": "flashcard", "topic": "welcome", "front": "Your streak", "back": "Answering daily builds a streak (🔥). Streaks reset if you miss a day — they're how you know you're consistent."},
+ {"type": "question", "topic": "welcome", "q": "What shows up on the Sunday leaderboard?", "options": ["Who answered wrong", "Top scorers of the week", "Who didn't answer", "Nothing"], "answer": 1, "explain": "The leaderboard celebrates the week's top scorers and departments. Mistakes are never published."}
+]

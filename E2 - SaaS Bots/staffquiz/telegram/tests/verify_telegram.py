@@ -260,8 +260,8 @@ def main():
           err == "" and parts[2] == "-100777" and parts[3] == "demo.json")
     parts, err = bot.parse_addcompany_args(
         "/addcompany acme|Acme BV|demo.json|09:00", "private", 111)
-    check("addcompany: 4-part form in DM rejected with hint",
-          err != "" and "INSIDE the company group" in err)
+    check("addcompany: 4-part form in DM = pure-DM mode (no group)",
+          err == "" and parts[2] == "" and parts[3] == "demo.json")
     parts, err = bot.parse_addcompany_args("/addcompany", "private", 111)
     check("addcompany: no args rejected", err != "" and parts == [])
     kb = bot.company_keyboard([])
@@ -272,6 +272,48 @@ def main():
     check("company pick: 2 companies → 2 buttons",
           kb is not None and len(kb.inline_keyboard) == 2
           and kb.inline_keyboard[0][0].callback_data == "pick:1")
+
+    # ── no-group architecture (DM delivery) ──
+    tenants = [
+        {"id": 1, "slug": "acme", "name": "Acme", "active": 1, "admin_id": 222,
+         "default_bank": "acme.json"},
+        {"id": 2, "slug": "beta", "name": "Beta", "active": 1, "admin_id": None,
+         "default_bank": "beta.json"},
+    ]
+
+    class _FakeUpdate:
+        def __init__(self, uid, text):
+            self.effective_user = type("U", (), {"id": uid})()
+            self.message = type("M", (), {"text": text})()
+    check("deep link: known slug resolves", bot.resolve_start_tenant(tenants, ["acme"])["id"] == 1)
+    check("deep link: unknown slug → None", bot.resolve_start_tenant(tenants, ["nope"]) is None)
+    check("deep link: no args → None", bot.resolve_start_tenant(tenants, []) is None)
+    check("mini-key: tenant admin found", bot.tenant_admin_for_uid(tenants, 222)["slug"] == "acme")
+    check("mini-key: stranger → None", bot.tenant_admin_for_uid(tenants, 999) is None)
+    check("registration link has bot username + slug",
+          "staffle_bot?start=acme" in bot.registration_link("acme"))
+    ann = bot.build_announcement_text({"name": "Acme"}, 3)
+    check("announcement mentions private answers", "private chat" in ann and "3 players" in ann)
+    slug, name, qtime, err = bot.parse_createcompany_args("/createcompany acme|Acme BV|08:30")
+    check("createcompany parses", err == "" and slug == "acme" and qtime == "08:30")
+    slug, name, qtime, err = bot.parse_createcompany_args("/createcompany acme")
+    check("createcompany rejects short form", err != "" and slug == "")
+    t, err = bot.resolve_invite_tenant(config.OWNER_ADMIN_ID, tenants, "acme")
+    check("invite: owner gets any company", err == "" and t["slug"] == "acme")
+    t, err = bot.resolve_invite_tenant(222, tenants, "")
+    check("invite: tenant admin gets own company", err == "" and t["slug"] == "acme")
+    t, err = bot.resolve_invite_tenant(999, tenants, "")
+    check("invite: stranger rejected", err != "" and t is None)
+    bankfile, t, err = bot.parse_feed_command(_FakeUpdate(222, "/feed"), tenants)
+    check("feed: tenant admin feeds own bank", err == "" and bankfile == "acme.json" and t["slug"] == "acme")
+    bankfile, t, err = bot.parse_feed_command(_FakeUpdate(222, "/feed beta.json"), tenants)
+    check("feed: tenant admin cannot feed another bank",
+          err != "" and "only feed your company" in err)
+    bankfile, t, err = bot.parse_feed_command(_FakeUpdate(999, "/feed"), tenants)
+    check("feed: stranger rejected", err != "" and bankfile == "")
+    bankfile, t, err = bot.parse_feed_command(
+        _FakeUpdate(config.OWNER_ADMIN_ID, "/feed demo-service.json"), tenants)
+    check("feed: owner feeds any bank", err == "" and bankfile == "demo-service.json")
 
     print()
     if FAILS:

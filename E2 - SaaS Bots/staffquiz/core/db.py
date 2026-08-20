@@ -194,6 +194,34 @@ def get_employee_by_id(db_path, employee_id):
     return dict(row) if row else None
 
 
+def list_employees(db_path, tenant_id):
+    """All registered employees of a tenant, in registration order."""
+    conn = get_conn(db_path)
+    rows = conn.execute(
+        "SELECT * FROM employees WHERE tenant_id=? ORDER BY id", (tenant_id,)
+    ).fetchall()
+    conn.close()
+    return [dict(r) for r in rows]
+
+
+def set_tenant_admin(db_path, tenant_id, admin_id):
+    """Store the buyer's Telegram id on the tenant (their 'mini-key').
+
+    Adds the admin_id column on first use (sqlite has no ADD COLUMN IF NOT EXISTS).
+    """
+    conn = get_conn(db_path)
+    try:
+        try:
+            conn.execute("ALTER TABLE tenants ADD COLUMN admin_id INTEGER")
+            conn.commit()
+        except sqlite3.OperationalError:
+            pass  # column already exists
+        conn.execute("UPDATE tenants SET admin_id=? WHERE id=?", (admin_id, tenant_id))
+        conn.commit()
+    finally:
+        conn.close()
+
+
 # ── answers ──
 
 def record_answer(db_path, tenant_id, employee_id, item_index, correct,

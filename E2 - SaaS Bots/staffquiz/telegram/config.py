@@ -11,6 +11,7 @@ ROOT_DIR = BASE_DIR.parent                           # .../staffquiz
 load_dotenv(BASE_DIR / ".env")
 
 BOT_TOKEN = os.environ.get("STAFFQUIZ_BOT_TOKEN", "").strip()
+BOT_USERNAME = os.environ.get("STAFFQUIZ_BOT_USERNAME", "staffle_bot").strip()
 OWNER_ADMIN_ID = int(os.environ.get("STAFFQUIZ_OWNER_ADMIN_ID", "0") or 0)
 DB_PATH = os.environ.get("STAFFQUIZ_DB_PATH", str(BASE_DIR / "data" / "staffquiz.db"))
 BANKS_DIR = os.environ.get("STAFFQUIZ_BANKS_DIR", str(ROOT_DIR / "data" / "banks"))
