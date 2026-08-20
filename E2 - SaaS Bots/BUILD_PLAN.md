@@ -47,3 +47,22 @@ Manual and zero-friction: customer pays (Tikkie / Stripe link), we run `/paid <c
 ## Names
 
 Working names: **QuizDay** (quiz engine) and **BoardKit** (job board kit). Placeholders — rename freely.
+
+---
+
+# StaffQuiz — third product (B2B staff training)
+
+Same engine, new fuel: daily quiz + flashcards for company staff, in the chat they already use (Telegram now, WhatsApp next). Material comes from the client in any format; the team lead narrates the bot; the manager gets an **aggregate, anonymous** gap report (never per-employee — legal + pitch-safe).
+
+## Tasks (StaffQuiz)
+
+- [ ] `core/` — platform-neutral engine: question + flashcard banks, scores, streaks, aggregate report, fun-bank schedule, typed-notes intake parser
+- [ ] `telegram/` — group delivery adapter: registration (name/department/language), daily question + flashcard, leaderboards, manager commands
+- [ ] `whatsapp/` — Cloud API vs Baileys decision doc, parity spec, adapter skeleton
+- [ ] Wire adapters to core; full verify runs green
+- [ ] Demo tenant on a real group (test staff)
+- [ ] Content intake live test: feed a real PDF → preview → run
+- [ ] PRICING — **LOCKED: €49/mo (≤25 staff) / €79/mo (≤50) / €99 one-time setup** (content conversion + onboarding)
+- [ ] First company customer (facilities/horeca network — your call who first)
+- [ ] Features 1–6 per `staffquiz/FEATURES-SPEC.md` (Phase 1: scenario, review question, team battles, badges — Phase 2: multilingual, onboarding pack, personal reviews)
+
