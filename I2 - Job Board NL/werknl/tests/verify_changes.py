@@ -12,7 +12,7 @@ import os
 import subprocess
 import sys
 
-APP = r'C:\Users\veria\Desktop\Telegram-Ideas\I2 - Job Board NL\werknl'
+APP = r'C:\Users\veria\Desktop\AI STUFF DIFFERENT AGENTS\In progress\Telegram Ideas\I2 - Job Board NL\werknl'
 os.chdir(APP)
 sys.path.insert(0, APP)
 
